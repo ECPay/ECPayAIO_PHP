@@ -658,6 +658,7 @@ class ECPay_Send extends ECPay_Aio
         $szHtml .=         "<form id=\"__ecpayForm\" method=\"post\" target=\"{$target}\" action=\"{$ServiceURL}\">";
 
         foreach ($arParameters as $keys => $value) {
+            $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8', true);
             $szHtml .=         "<input type=\"hidden\" name=\"{$keys}\" value=\"{$value}\" />";
         }
 
