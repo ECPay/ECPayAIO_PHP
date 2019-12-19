@@ -1,24 +1,35 @@
 <?php
 
+namespace ECPay\Invoice;
+
+use Exception;
+
 /**
- *  L手機條碼驗證
+ *  H查詢折讓明細
  */
-class ECPay_CHECK_MOBILE_BARCODE
+class AllowanceSearch
 {
     // 所需參數
     public $parameters = [
         'TimeStamp' => '',
         'MerchantID' => '',
         'CheckMacValue' => '',
-        'BarCode' => ''
+        'InvoiceNo' => '',
+        'AllowanceNo' => ''
     ];
 
     // 需要做urlencode的參數
     public $urlencode_field = [
+        'ItemName' => '',
+        'ItemWord' => '',
+        'IIS_Customer_Name' => ''
+
     ];
 
     // 不需要送壓碼的欄位
     public $none_verification = [
+        'ItemName' => '',
+        'ItemWord' => '',
         'CheckMacValue' => ''
     ];
 
@@ -45,10 +56,24 @@ class ECPay_CHECK_MOBILE_BARCODE
 
         $arErrors = [];
 
-        // 50.BarCode 手機條碼 
-        // *僅能為8碼且為必填
-        if (strlen($arParameters['BarCode']) != 8) {
-            array_push($arErrors, '50:BarCode max length as 8.');
+        // 37.發票號碼 InvoiceNo
+        // *必填項目
+        if (strlen($arParameters['InvoiceNo']) == 0) {
+            array_push($arErrors, '37:InvoiceNo is required.');
+        }
+        // *預設長度固定10碼
+        if (strlen($arParameters['InvoiceNo']) != 10) {
+            array_push($arErrors, '37:InvoiceNo length as 10.');
+        }
+
+        // 44.折讓編號 AllowanceNo
+        // *必填項目
+        if (strlen($arParameters['AllowanceNo']) == 0) {
+            array_push($arErrors, '44:AllowanceNo is required.');
+        }
+        // *若有值長度固定16字元
+        if (strlen($arParameters['AllowanceNo']) != 0 && strlen($arParameters['AllowanceNo']) != 16) {
+            array_push($arErrors, '44:AllowanceNo length as 16.');
         }
 
         if (sizeof($arErrors) > 0) throw new Exception(join('<br>', $arErrors));
@@ -61,11 +86,6 @@ class ECPay_CHECK_MOBILE_BARCODE
      */
     function check_exception($arParameters = [])
     {
-
-        if (isset($arParameters['BarCode'])) {
-            // 手機條碼 內包含+號則改為空白
-            $arParameters['BarCode'] = str_replace('+', ' ', $arParameters['BarCode']);
-        }
 
         return $arParameters;
     }

@@ -1,6 +1,8 @@
 <?php
 
-class EcpayInvoice
+namespace ECPay\Invoice;
+
+class Invoice
 {
     /**
      * 版本
@@ -27,17 +29,17 @@ class EcpayInvoice
             'CustomerPhone' => '',
             'CustomerEmail' => '',
             'ClearanceMark' => '',
-            'Print' => EcpayPrintMark::No,
-            'Donation' => EcpayDonation::No,
+            'Print' => PrintMark::No,
+            'Donation' => Donation::No,
             'LoveCode' => '',
-            'CarruerType' => EcpayCarruerType::None,
+            'CarruerType' => CarruerType::None,
             'CarruerNum' => '',
             'TaxType' => '',
             'SalesAmount' => '',
             'InvoiceRemark' => '',
             'Items' => [],
             'InvType' => '',
-            'vat' => EcpayVatType::Yes,
+            'vat' => VatType::Yes,
             'DelayFlag' => '',
             'DelayDay' => 0,
             'Tsr' => '',
@@ -66,6 +68,6 @@ class EcpayInvoice
     function Check_Out()
     {
         $arParameters = array_merge(['MerchantID' => $this->MerchantID], ['TimeStamp' => $this->TimeStamp], $this->Send);
-        return ECPay_Invoice_Send::CheckOut($arParameters, $this->HashKey, $this->HashIV, $this->Invoice_Method, $this->Invoice_Url);
+        return Send::CheckOut($arParameters, $this->HashKey, $this->HashIV, $this->Invoice_Method, $this->Invoice_Url);
     }
 }

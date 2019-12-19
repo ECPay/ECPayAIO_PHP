@@ -1,6 +1,8 @@
 <?php
 
-abstract class EcpayDelayFlagType
+namespace ECPay\Invoice;
+
+abstract class DelayFlagType
 {
     // 延遲註記
     const Delay = '1';

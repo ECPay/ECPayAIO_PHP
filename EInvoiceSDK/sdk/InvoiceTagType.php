@@ -1,6 +1,8 @@
 <?php
 
-abstract class EcpayInvoiceTagType
+namespace ECPay\Invoice;
+
+abstract class InvoiceTagType
 {
     // 發票開立
     const Invoice = 'I';

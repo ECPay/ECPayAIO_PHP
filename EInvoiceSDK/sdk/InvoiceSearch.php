@@ -1,31 +1,41 @@
 <?php
 
+namespace ECPay\Invoice;
+
+use Exception;
+
 /**
- *  H查詢折讓明細
+ *  F查詢發票
  */
-class ECPay_ALLOWANCE_SEARCH
+class InvoiceSearch
 {
     // 所需參數
     public $parameters = [
         'TimeStamp' => '',
         'MerchantID' => '',
-        'CheckMacValue' => '',
-        'InvoiceNo' => '',
-        'AllowanceNo' => ''
+        'RelateNumber' => '',
+        'CheckMacValue' => ''
     ];
 
     // 需要做urlencode的參數
     public $urlencode_field = [
+        'IIS_Customer_Name' => '',
+        'IIS_Customer_Addr' => '',
         'ItemName' => '',
         'ItemWord' => '',
-        'IIS_Customer_Name' => ''
-
+        'ItemRemark' => '',
+        'InvoiceRemark' => ''
     ];
 
     // 不需要送壓碼的欄位
     public $none_verification = [
         'ItemName' => '',
         'ItemWord' => '',
+        'ItemRemark' => '',
+        'InvoiceRemark' => '',
+        'PosBarCode' => '',
+        'QRCode_Left' => '',
+        'QRCode_Right' => '',
         'CheckMacValue' => ''
     ];
 
@@ -52,24 +62,13 @@ class ECPay_ALLOWANCE_SEARCH
 
         $arErrors = [];
 
-        // 37.發票號碼 InvoiceNo
-        // *必填項目
-        if (strlen($arParameters['InvoiceNo']) == 0) {
-            array_push($arErrors, '37:InvoiceNo is required.');
+        // *預設不可為空值
+        if (strlen($arParameters['RelateNumber']) == 0) {
+            array_push($arErrors, '4:RelateNumber is required.');
         }
-        // *預設長度固定10碼
-        if (strlen($arParameters['InvoiceNo']) != 10) {
-            array_push($arErrors, '37:InvoiceNo length as 10.');
-        }
-
-        // 44.折讓編號 AllowanceNo
-        // *必填項目
-        if (strlen($arParameters['AllowanceNo']) == 0) {
-            array_push($arErrors, '44:AllowanceNo is required.');
-        }
-        // *若有值長度固定16字元
-        if (strlen($arParameters['AllowanceNo']) != 0 && strlen($arParameters['AllowanceNo']) != 16) {
-            array_push($arErrors, '44:AllowanceNo length as 16.');
+        // *預設最大長度為30碼
+        if (strlen($arParameters['RelateNumber']) > 30) {
+            array_push($arErrors, '4:RelateNumber max langth as 30.');
         }
 
         if (sizeof($arErrors) > 0) throw new Exception(join('<br>', $arErrors));
@@ -82,6 +81,14 @@ class ECPay_ALLOWANCE_SEARCH
      */
     function check_exception($arParameters = [])
     {
+
+        if (isset($arParameters['IIS_Customer_Email'])) {
+            $arParameters['IIS_Customer_Email'] = str_replace('+', ' ', $arParameters['IIS_Customer_Email']);
+        }
+
+        if (isset($arParameters['IIS_Carruer_Num'])) {
+            $arParameters['IIS_Carruer_Num'] = str_replace('+', ' ', $arParameters['IIS_Carruer_Num']);
+        }
 
         return $arParameters;
     }

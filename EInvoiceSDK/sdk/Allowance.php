@@ -1,9 +1,13 @@
 <?php
 
+namespace ECPay\Invoice;
+
+use Exception;
+
 /**
  *  C開立折讓
  */
-class ECPay_ALLOWANCE
+class Allowance
 {
     // 所需參數
     public $parameters = [
@@ -214,7 +218,7 @@ class ECPay_ALLOWANCE
         // 38.通知類別 AllowanceNotify
 
         // *固定給定下述預設值
-        if (($arParameters['AllowanceNotify'] != EcpayAllowanceNotifyType::Sms) && ($arParameters['AllowanceNotify'] != EcpayAllowanceNotifyType::Email) && ($arParameters['AllowanceNotify'] != EcpayAllowanceNotifyType::All) && ($arParameters['AllowanceNotify'] != EcpayAllowanceNotifyType::None)) {
+        if (($arParameters['AllowanceNotify'] != AllowanceNotifyType::Sms) && ($arParameters['AllowanceNotify'] != AllowanceNotifyType::Email) && ($arParameters['AllowanceNotify'] != AllowanceNotifyType::All) && ($arParameters['AllowanceNotify'] != AllowanceNotifyType::None)) {
             array_push($arErrors, '38:Invalid AllowanceNotifyType.');
         }
 
@@ -227,7 +231,7 @@ class ECPay_ALLOWANCE
             }
         }
         // *下述情況通知電子信箱不可為空值(通知類別為E-電子郵件)
-        if ($arParameters['AllowanceNotify'] == EcpayAllowanceNotifyType::Email && strlen($arParameters['NotifyMail']) == 0) {
+        if ($arParameters['AllowanceNotify'] == AllowanceNotifyType::Email && strlen($arParameters['NotifyMail']) == 0) {
             array_push($arErrors, '39:NotifyMail is required.');
         }
 
@@ -243,21 +247,21 @@ class ECPay_ALLOWANCE
             array_push($arErrors, '40:NotifyPhone max length as 20.');
         }
         // *下述情況通知手機號碼不可為空值(通知類別為S-簡訊)
-        if ($arParameters['AllowanceNotify'] == EcpayAllowanceNotifyType::Sms && strlen($arParameters['NotifyPhone']) == 0) {
+        if ($arParameters['AllowanceNotify'] == AllowanceNotifyType::Sms && strlen($arParameters['NotifyPhone']) == 0) {
             array_push($arErrors, '40:NotifyPhone is required.');
         }
 
         // 39-40 通知電子信箱、通知手機號碼不能全為空值 (如果狀態為SMS 或 EMAIL)
-        if (strlen($arParameters['NotifyPhone']) == 0 && strlen($arParameters['NotifyMail']) == 0 && ($arParameters['AllowanceNotify'] == EcpayAllowanceNotifyType::Sms || $arParameters['AllowanceNotify'] == EcpayAllowanceNotifyType::Email)) {
+        if (strlen($arParameters['NotifyPhone']) == 0 && strlen($arParameters['NotifyMail']) == 0 && ($arParameters['AllowanceNotify'] == AllowanceNotifyType::Sms || $arParameters['AllowanceNotify'] == AllowanceNotifyType::Email)) {
             array_push($arErrors, '39-40:NotifyMail or NotifyPhone is required.');
         } else {
             // *下述情況通知手機號碼與電子信箱不可為空值(通知類別為A-皆通知)
-            if ($arParameters['AllowanceNotify'] == EcpayAllowanceNotifyType::All && (strlen($arParameters['NotifyMail']) == 0 || strlen($arParameters['NotifyPhone']) == 0)) {
+            if ($arParameters['AllowanceNotify'] == AllowanceNotifyType::All && (strlen($arParameters['NotifyMail']) == 0 || strlen($arParameters['NotifyPhone']) == 0)) {
                 array_push($arErrors, '39-40:NotifyMail And NotifyPhone is required.');
             }
 
             // *下述情況通知手機號碼與電子信箱為空值(通知類別為N-皆不通知)
-            if ($arParameters['AllowanceNotify'] == EcpayAllowanceNotifyType::None && (strlen($arParameters['NotifyMail']) > 0 || strlen($arParameters['NotifyPhone']) > 0)) {
+            if ($arParameters['AllowanceNotify'] == AllowanceNotifyType::None && (strlen($arParameters['NotifyMail']) > 0 || strlen($arParameters['NotifyPhone']) > 0)) {
                 array_push($arErrors, '39-40:Please remove NotifyMail And NotifyPhone.');
             }
         }

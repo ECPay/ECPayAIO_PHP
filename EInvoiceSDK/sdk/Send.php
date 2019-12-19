@@ -1,9 +1,13 @@
 <?php
 
+namespace ECPay\Invoice;
+
+use Exception;
+
 /**
  *  送出資訊
  */
-class ECPay_Invoice_Send
+class Send
 {
     // 發票物件
     public static $InvoiceObj;
@@ -18,7 +22,7 @@ class ECPay_Invoice_Send
         // 發送資訊處理
         $arParameters = self::process_send($arParameters, $HashKey, $HashIV, $Invoice_Method, $ServiceURL);
 
-        $szResult = ECPay_IO::ServerPost($arParameters, $ServiceURL);
+        $szResult = IO::ServerPost($arParameters, $ServiceURL);
 
         // 回傳資訊處理
         $arParameters_Return = self::process_return($szResult, $HashKey, $HashIV, $Invoice_Method);
@@ -39,19 +43,19 @@ class ECPay_Invoice_Send
         $arParameters = self::$InvoiceObj->insert_string($arParameters);
 
         // 2檢查共用參數
-        ECPay_Invoice_Send::check_string($arParameters['MerchantID'], $HashKey, $HashIV, $Invoice_Method, $ServiceURL);
+        Send::check_string($arParameters['MerchantID'], $HashKey, $HashIV, $Invoice_Method, $ServiceURL);
 
         // 3檢查各別參數
         $arParameters = self::$InvoiceObj->check_extend_string($arParameters);
 
         // 4處理需要轉換為urlencode的參數
-        $arParameters = ECPay_Invoice_Send::urlencode_process($arParameters, self::$InvoiceObj->urlencode_field);
+        $arParameters = Send::urlencode_process($arParameters, self::$InvoiceObj->urlencode_field);
 
         // 5欄位例外處理方式(送壓碼前)
         $arException = self::$InvoiceObj->check_exception($arParameters);
 
         // 6產生壓碼
-        $arParameters['CheckMacValue'] = ECPay_Invoice_Send::generate_checkmacvalue($arException, self::$InvoiceObj->none_verification, $HashKey, $HashIV);
+        $arParameters['CheckMacValue'] = Send::generate_checkmacvalue($arException, self::$InvoiceObj->none_verification, $HashKey, $HashIV);
 
         return $arParameters;
     }
@@ -67,14 +71,14 @@ class ECPay_Invoice_Send
         self::$InvoiceObj_Return = new $InvoiceMethod;
 
         // 7字串轉陣列
-        $arParameters = ECPay_Invoice_Send::string_to_array($sParameters);
+        $arParameters = Send::string_to_array($sParameters);
 
         // 8欄位例外處理方式(送壓碼前)
         $arException = self::$InvoiceObj_Return->check_exception($arParameters);
 
         // 9產生壓碼(壓碼檢查)
         if (isset($arParameters['CheckMacValue'])) {
-            $CheckMacValue = ECPay_Invoice_Send::generate_checkmacvalue($arException, self::$InvoiceObj_Return->none_verification, $HashKey, $HashIV);
+            $CheckMacValue = Send::generate_checkmacvalue($arException, self::$InvoiceObj_Return->none_verification, $HashKey, $HashIV);
 
             if ($CheckMacValue != $arParameters['CheckMacValue']) {
                 throw new Exception('注意：壓碼錯誤');
@@ -82,7 +86,7 @@ class ECPay_Invoice_Send
         }
 
         // 10處理需要urldecode的參數
-        $arParameters = ECPay_Invoice_Send::urldecode_process($arParameters, self::$InvoiceObj_Return->urlencode_field);
+        $arParameters = Send::urldecode_process($arParameters, self::$InvoiceObj_Return->urlencode_field);
 
         return $arParameters;
     }
@@ -136,7 +140,7 @@ class ECPay_Invoice_Send
         foreach ($arParameters as $key => $value) {
             if (isset($urlencode_field[$key])) {
                 $arParameters[$key] = urlencode($value);
-                $arParameters[$key] = ECPay_Invoice_CheckMacValue::Replace_Symbol($arParameters[$key]);
+                $arParameters[$key] = CheckMacValue::Replace_Symbol($arParameters[$key]);
             }
         }
 
@@ -158,7 +162,7 @@ class ECPay_Invoice_Send
             }
         }
 
-        $sCheck_MacValue = ECPay_Invoice_CheckMacValue::generate($arParameters, $HashKey, $HashIV, ECPay_EncryptType::ENC_MD5);
+        $sCheck_MacValue = CheckMacValue::generate($arParameters, $HashKey, $HashIV, EncryptType::ENC_MD5);
 
         return $sCheck_MacValue;
     }
@@ -190,7 +194,7 @@ class ECPay_Invoice_Send
 
         foreach ($arParameters as $key => $value) {
             if (isset($urlencode_field[$key])) {
-                $arParameters[$key] = ECPay_Invoice_CheckMacValue::Replace_Symbol_Decode($arParameters[$key]);
+                $arParameters[$key] = CheckMacValue::Replace_Symbol_Decode($arParameters[$key]);
                 $arParameters[$key] = urldecode($value);
             }
         }

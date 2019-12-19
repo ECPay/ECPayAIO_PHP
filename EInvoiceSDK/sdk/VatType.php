@@ -1,6 +1,8 @@
 <?php
 
-abstract class EcpayVatType
+namespace ECPay\Invoice;
+
+abstract class VatType
 {
     // 商品單價含稅價
     const Yes = '1';

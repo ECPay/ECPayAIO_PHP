@@ -1,6 +1,8 @@
 <?php
 
-abstract class EcpayDonation
+namespace ECPay\Invoice;
+
+abstract class Donation
 {
     // 捐贈
     const Yes = '1';

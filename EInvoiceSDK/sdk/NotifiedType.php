@@ -1,6 +1,8 @@
 <?php
 
-abstract class EcpayNotifiedType
+namespace ECPay\Invoice;
+
+abstract class NotifiedType
 {
     // 通知客戶
     const Customer = 'C';

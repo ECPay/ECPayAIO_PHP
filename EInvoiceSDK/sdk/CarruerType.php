@@ -1,6 +1,8 @@
 <?php
 
-abstract class EcpayCarruerType
+namespace ECPay\Invoice;
+
+abstract class CarruerType
 {
     // 無載具
     const None = '';

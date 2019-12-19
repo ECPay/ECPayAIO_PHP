@@ -1,6 +1,8 @@
 <?php
 
-abstract class EcpayPrintMark
+namespace ECPay\Invoice;
+
+abstract class PrintMark
 {
     // 不列印
     const No = '0';

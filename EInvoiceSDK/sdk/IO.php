@@ -1,6 +1,10 @@
 <?php
 
-class ECPay_IO
+namespace ECPay\Invoice;
+
+use Exception;
+
+class IO
 {
     static function ServerPost($parameters, $ServiceURL)
     {

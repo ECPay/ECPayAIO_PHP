@@ -1,9 +1,13 @@
 <?php
 
+namespace ECPay\Invoice;
+
+use Exception;
+
 /**
  *  J發送通知
  */
-class ECPay_INVOICE_NOTIFY
+class InvoiceNotify
 {
     // 所需參數
     public $parameters = [
@@ -54,7 +58,7 @@ class ECPay_INVOICE_NOTIFY
         $arErrors = [];
 
         // 37.發票號碼 InvoiceNo
-        if (($arParameters['InvoiceTag'] == EcpayInvoiceTagType::Invoice) || ($arParameters['InvoiceTag'] == EcpayInvoiceTagType::Invoice_Void)) {
+        if (($arParameters['InvoiceTag'] == InvoiceTagType::Invoice) || ($arParameters['InvoiceTag'] == InvoiceTagType::Invoice_Void)) {
             // *必填項目
             if (strlen($arParameters['InvoiceNo']) == 0) {
                 array_push($arErrors, '37:InvoiceNo is required.');
@@ -66,7 +70,7 @@ class ECPay_INVOICE_NOTIFY
         }
 
         // 44.折讓編號 AllowanceNo
-        if (($arParameters['InvoiceTag'] == EcpayInvoiceTagType::Allowance) || ($arParameters['InvoiceTag'] == EcpayInvoiceTagType::Allowance_Void)) {
+        if (($arParameters['InvoiceTag'] == InvoiceTagType::Allowance) || ($arParameters['InvoiceTag'] == InvoiceTagType::Allowance_Void)) {
             if (strlen($arParameters['AllowanceNo']) == 0) {
                 array_push($arErrors, '44:AllowanceNo is required.');
             }
@@ -86,7 +90,7 @@ class ECPay_INVOICE_NOTIFY
             }
         }
         // *下述情況通知電子信箱不可為空值(發送方式為E-電子郵件)
-        if ($arParameters['Notify'] == EcpayNotifyType::Email && strlen($arParameters['NotifyMail']) == 0) {
+        if ($arParameters['Notify'] == NotifyType::Email && strlen($arParameters['NotifyMail']) == 0) {
             array_push($arErrors, '39:NotifyMail is required.');
         }
 
@@ -102,7 +106,7 @@ class ECPay_INVOICE_NOTIFY
             array_push($arErrors, '46:Phone max length as 20.');
         }
         // *下述情況通知手機號碼不可為空值(發送方式為S-簡訊)
-        if ($arParameters['Notify'] == EcpayNotifyType::Sms && strlen($arParameters['Phone']) == 0) {
+        if ($arParameters['Notify'] == NotifyType::Sms && strlen($arParameters['Phone']) == 0) {
             array_push($arErrors, '46:Phone is required.');
         }
 
@@ -110,26 +114,26 @@ class ECPay_INVOICE_NOTIFY
         if (strlen($arParameters['Phone']) == 0 && strlen($arParameters['NotifyMail']) == 0) {
             array_push($arErrors, '45-46:NotifyMail or Phone is required.');
         } else {
-            if ($arParameters['Notify'] == EcpayNotifyType::All && (strlen($arParameters['NotifyMail']) == 0 || strlen($arParameters['Phone']) == 0)) {
+            if ($arParameters['Notify'] == NotifyType::All && (strlen($arParameters['NotifyMail']) == 0 || strlen($arParameters['Phone']) == 0)) {
                 array_push($arErrors, '45-46:NotifyMail and Phone is required.');
             }
         }
         // 47. 發送方式 Notify
 
         // *固定給定下述預設值
-        if (($arParameters['Notify'] != EcpayNotifyType::Sms) && ($arParameters['Notify'] != EcpayNotifyType::Email) && ($arParameters['Notify'] != EcpayNotifyType::All)) {
+        if (($arParameters['Notify'] != NotifyType::Sms) && ($arParameters['Notify'] != NotifyType::Email) && ($arParameters['Notify'] != NotifyType::All)) {
             array_push($arErrors, '47:Notify is required.');
         }
 
         // 48.發送內容類型 InvoiceTag
         // *固定給定下述預設值
-        if (($arParameters['InvoiceTag'] != EcpayInvoiceTagType::Invoice) && ($arParameters['InvoiceTag'] != EcpayInvoiceTagType::Invoice_Void) && ($arParameters['InvoiceTag'] != EcpayInvoiceTagType::Allowance) && ($arParameters['InvoiceTag'] != EcpayInvoiceTagType::Allowance_Void) && ($arParameters['InvoiceTag'] != EcpayInvoiceTagType::Invoice_Winning)) {
+        if (($arParameters['InvoiceTag'] != InvoiceTagType::Invoice) && ($arParameters['InvoiceTag'] != InvoiceTagType::Invoice_Void) && ($arParameters['InvoiceTag'] != InvoiceTagType::Allowance) && ($arParameters['InvoiceTag'] != InvoiceTagType::Allowance_Void) && ($arParameters['InvoiceTag'] != InvoiceTagType::Invoice_Winning)) {
             array_push($arErrors, '48:InvoiceTag is required.');
         }
 
         // 49.發送對象 Notified
         // *固定給定下述預設值
-        if (($arParameters['Notified'] != EcpayNotifiedType::Customer) && ($arParameters['Notified'] != EcpayNotifiedType::vendor) && ($arParameters['Notified'] != EcpayNotifiedType::All)) {
+        if (($arParameters['Notified'] != NotifiedType::Customer) && ($arParameters['Notified'] != NotifiedType::vendor) && ($arParameters['Notified'] != NotifiedType::All)) {
             array_push($arErrors, '49:Notified is required.');
         }
 

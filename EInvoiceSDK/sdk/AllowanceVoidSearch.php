@@ -1,25 +1,32 @@
 <?php
 
+namespace ECPay\Invoice;
+
+use Exception;
+
 /**
- *  K付款完成觸發或延遲開立發票
+ *  I查詢折讓作廢明細
  */
-class ECPay_INVOICE_TRIGGER
+class AllowanceVoidSearch
 {
     // 所需參數
     public $parameters = [
         'TimeStamp' => '',
         'MerchantID' => '',
         'CheckMacValue' => '',
-        'Tsr' => '',
-        'PayType' => 2
+        'InvoiceNo' => '',
+        'AllowanceNo' => ''
     ];
 
     // 需要做urlencode的參數
     public $urlencode_field = [
+        'Reason' => ''
+
     ];
 
     // 不需要送壓碼的欄位
     public $none_verification = [
+        'Reason' => '',
         'CheckMacValue' => ''
     ];
 
@@ -46,21 +53,24 @@ class ECPay_INVOICE_TRIGGER
 
         $arErrors = [];
 
-        // 33.交易單號 Tsr
+        // 37.發票號碼 InvoiceNo
         // *必填項目
-        if (strlen($arParameters['Tsr']) == 0) {
-            array_push($arErrors, '33:Tsr is required.');
+        if (strlen($arParameters['InvoiceNo']) == 0) {
+            array_push($arErrors, '37:InvoiceNo is required.');
+        }
+        // *預設長度固定10碼
+        if (strlen($arParameters['InvoiceNo']) != 10) {
+            array_push($arErrors, '37:InvoiceNo length as 10.');
         }
 
-        // *判斷最大字元是否超過30字
-        if (strlen($arParameters['Tsr']) > 30) {
-            array_push($arErrors, '33:Tsr max length as 30.');
+        // 44.折讓編號 AllowanceNo
+        // *必填項目
+        if (strlen($arParameters['AllowanceNo']) == 0) {
+            array_push($arErrors, '44:AllowanceNo is required.');
         }
-
-        // 34.交易類別 PayType
-        // *2016-10-4 修改為僅允許 2
-        if ($arParameters['PayType'] != EcpayPayTypeCategory::Ecpay) {
-            array_push($arErrors, '34:Invalid PayType.');
+        // *若有值長度固定16字元
+        if (strlen($arParameters['AllowanceNo']) != 0 && strlen($arParameters['AllowanceNo']) != 16) {
+            array_push($arErrors, '44:AllowanceNo length as 16.');
         }
 
         if (sizeof($arErrors) > 0) throw new Exception(join('<br>', $arErrors));

@@ -1,16 +1,21 @@
 <?php
 
+namespace ECPay\Invoice;
+
+use Exception;
+
 /**
- *  M愛心碼驗證
+ *  K付款完成觸發或延遲開立發票
  */
-class ECPay_CHECK_LOVE_CODE
+class InvoiceTrigger
 {
     // 所需參數
     public $parameters = [
         'TimeStamp' => '',
         'MerchantID' => '',
-        'LoveCode' => '',
-        'CheckMacValue' => ''
+        'CheckMacValue' => '',
+        'Tsr' => '',
+        'PayType' => 2
     ];
 
     // 需要做urlencode的參數
@@ -45,10 +50,21 @@ class ECPay_CHECK_LOVE_CODE
 
         $arErrors = [];
 
-        // 51.LoveCode愛心碼
-        // *必填 3-7碼
-        if (strlen($arParameters['LoveCode']) > 7) {
-            array_push($arErrors, '51:LoveCode max length as 7.');
+        // 33.交易單號 Tsr
+        // *必填項目
+        if (strlen($arParameters['Tsr']) == 0) {
+            array_push($arErrors, '33:Tsr is required.');
+        }
+
+        // *判斷最大字元是否超過30字
+        if (strlen($arParameters['Tsr']) > 30) {
+            array_push($arErrors, '33:Tsr max length as 30.');
+        }
+
+        // 34.交易類別 PayType
+        // *2016-10-4 修改為僅允許 2
+        if ($arParameters['PayType'] != PayTypeCategory::Ecpay) {
+            array_push($arErrors, '34:Invalid PayType.');
         }
 
         if (sizeof($arErrors) > 0) throw new Exception(join('<br>', $arErrors));

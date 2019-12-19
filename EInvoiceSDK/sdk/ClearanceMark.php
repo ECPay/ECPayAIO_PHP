@@ -1,6 +1,8 @@
 <?php
 
-abstract class EcpayClearanceMark
+namespace ECPay\Invoice;
+
+abstract class ClearanceMark
 {
     // 經海關出口
     const Yes = '1';

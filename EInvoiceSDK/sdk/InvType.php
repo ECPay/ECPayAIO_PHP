@@ -1,6 +1,8 @@
 <?php
 
-abstract class EcpayInvType
+namespace ECPay\Invoice;
+
+abstract class InvType
 {
     // 一般稅額
     const General = '07';

@@ -1,7 +1,9 @@
 <?php
 
+namespace ECPay\Invoice;
+
 // 發送方式
-abstract class EcpayNotifyType
+abstract class NotifyType
 {
     // 簡訊通知
     const Sms = 'S';

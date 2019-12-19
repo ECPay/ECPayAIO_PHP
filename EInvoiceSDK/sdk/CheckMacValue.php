@@ -1,9 +1,11 @@
 <?php
 
+namespace ECPay\Invoice;
+
 /**
  *  檢查碼
  */
-class ECPay_Invoice_CheckMacValue
+class CheckMacValue
 {
     /**
      * 產生檢查碼
@@ -16,7 +18,7 @@ class ECPay_Invoice_CheckMacValue
         if (isset($arParameters)) {
 
             unset($arParameters['CheckMacValue']);
-            uksort($arParameters, ['ECPay_Invoice_CheckMacValue', 'merchantSort']);
+            uksort($arParameters, ['CheckMacValue', 'merchantSort']);
 
             // 組合字串
             $sMacValue = 'HashKey=' . $HashKey;
@@ -33,15 +35,15 @@ class ECPay_Invoice_CheckMacValue
             $sMacValue = strtolower($sMacValue);
 
             // 取代為與 dotNet 相符的字元
-            $sMacValue = ECPay_Invoice_CheckMacValue::Replace_Symbol($sMacValue);
+            $sMacValue = CheckMacValue::Replace_Symbol($sMacValue);
 
             // 編碼
             switch ($encType) {
-                case ECPay_EncryptType::ENC_SHA256:
+                case EncryptType::ENC_SHA256:
                     $sMacValue = hash('sha256', $sMacValue);    // SHA256 編碼
                     break;
 
-                case ECPay_EncryptType::ENC_MD5:
+                case EncryptType::ENC_MD5:
                 default:
 
                     $sMacValue = md5($sMacValue);    // MD5 編碼

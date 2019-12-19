@@ -1,7 +1,9 @@
 <?php
 
+namespace ECPay\Invoice;
+
 // 交易類別
-abstract class EcpayPayTypeCategory
+abstract class PayTypeCategory
 {
     // ECPAY
     const Ecpay = '2';

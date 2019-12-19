@@ -1,9 +1,13 @@
 <?php
 
+namespace ECPay\Invoice;
+
+use Exception;
+
 /**
- *  F查詢發票
+ *  G查詢作廢發票
  */
-class ECPay_INVOICE_SEARCH
+class InvoiceVoidSearch
 {
     // 所需參數
     public $parameters = [
@@ -15,23 +19,12 @@ class ECPay_INVOICE_SEARCH
 
     // 需要做urlencode的參數
     public $urlencode_field = [
-        'IIS_Customer_Name' => '',
-        'IIS_Customer_Addr' => '',
-        'ItemName' => '',
-        'ItemWord' => '',
-        'ItemRemark' => '',
-        'InvoiceRemark' => ''
+        'Reason' => ''
     ];
 
     // 不需要送壓碼的欄位
     public $none_verification = [
-        'ItemName' => '',
-        'ItemWord' => '',
-        'ItemRemark' => '',
-        'InvoiceRemark' => '',
-        'PosBarCode' => '',
-        'QRCode_Left' => '',
-        'QRCode_Right' => '',
+        'Reason' => '',
         'CheckMacValue' => ''
     ];
 
@@ -58,6 +51,8 @@ class ECPay_INVOICE_SEARCH
 
         $arErrors = [];
 
+        // 4.廠商自訂編號
+
         // *預設不可為空值
         if (strlen($arParameters['RelateNumber']) == 0) {
             array_push($arErrors, '4:RelateNumber is required.');
@@ -77,14 +72,6 @@ class ECPay_INVOICE_SEARCH
      */
     function check_exception($arParameters = [])
     {
-
-        if (isset($arParameters['IIS_Customer_Email'])) {
-            $arParameters['IIS_Customer_Email'] = str_replace('+', ' ', $arParameters['IIS_Customer_Email']);
-        }
-
-        if (isset($arParameters['IIS_Carruer_Num'])) {
-            $arParameters['IIS_Carruer_Num'] = str_replace('+', ' ', $arParameters['IIS_Carruer_Num']);
-        }
 
         return $arParameters;
     }

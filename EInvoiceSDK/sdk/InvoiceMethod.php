@@ -1,6 +1,8 @@
 <?php
 
-abstract class EcpayInvoiceMethod
+namespace ECPay\Invoice;
+
+abstract class InvoiceMethod
 {
     // 一般開立發票。
     const INVOICE = 'INVOICE';

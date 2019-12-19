@@ -1,28 +1,28 @@
 <?php
 
+namespace ECPay\Invoice;
+
+use Exception;
+
 /**
- *  I查詢折讓作廢明細
+ *  L手機條碼驗證
  */
-class ECPay_ALLOWANCE_VOID_SEARCH
+class CheckMobileBarcode
 {
     // 所需參數
     public $parameters = [
         'TimeStamp' => '',
         'MerchantID' => '',
         'CheckMacValue' => '',
-        'InvoiceNo' => '',
-        'AllowanceNo' => ''
+        'BarCode' => ''
     ];
 
     // 需要做urlencode的參數
     public $urlencode_field = [
-        'Reason' => ''
-
     ];
 
     // 不需要送壓碼的欄位
     public $none_verification = [
-        'Reason' => '',
         'CheckMacValue' => ''
     ];
 
@@ -49,24 +49,10 @@ class ECPay_ALLOWANCE_VOID_SEARCH
 
         $arErrors = [];
 
-        // 37.發票號碼 InvoiceNo
-        // *必填項目
-        if (strlen($arParameters['InvoiceNo']) == 0) {
-            array_push($arErrors, '37:InvoiceNo is required.');
-        }
-        // *預設長度固定10碼
-        if (strlen($arParameters['InvoiceNo']) != 10) {
-            array_push($arErrors, '37:InvoiceNo length as 10.');
-        }
-
-        // 44.折讓編號 AllowanceNo
-        // *必填項目
-        if (strlen($arParameters['AllowanceNo']) == 0) {
-            array_push($arErrors, '44:AllowanceNo is required.');
-        }
-        // *若有值長度固定16字元
-        if (strlen($arParameters['AllowanceNo']) != 0 && strlen($arParameters['AllowanceNo']) != 16) {
-            array_push($arErrors, '44:AllowanceNo length as 16.');
+        // 50.BarCode 手機條碼 
+        // *僅能為8碼且為必填
+        if (strlen($arParameters['BarCode']) != 8) {
+            array_push($arErrors, '50:BarCode max length as 8.');
         }
 
         if (sizeof($arErrors) > 0) throw new Exception(join('<br>', $arErrors));
@@ -79,6 +65,11 @@ class ECPay_ALLOWANCE_VOID_SEARCH
      */
     function check_exception($arParameters = [])
     {
+
+        if (isset($arParameters['BarCode'])) {
+            // 手機條碼 內包含+號則改為空白
+            $arParameters['BarCode'] = str_replace('+', ' ', $arParameters['BarCode']);
+        }
 
         return $arParameters;
     }

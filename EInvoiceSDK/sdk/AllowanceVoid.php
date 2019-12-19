@@ -1,17 +1,22 @@
 <?php
 
+namespace ECPay\Invoice;
+
+use Exception;
+
 /**
- *  D發票作廢
+ *  E折讓作廢
  */
-class ECPay_INVOICE_VOID
+class AllowanceVoid
 {
     // 所需參數
     public $parameters = [
         'TimeStamp' => '',
         'MerchantID' => '',
         'CheckMacValue' => '',
-        'InvoiceNumber' => '',
-        'Reason' => ''
+        'InvoiceNo' => '',
+        'Reason' => '',
+        'AllowanceNo' => ''
     ];
 
     // 需要做urlencode的參數
@@ -48,15 +53,14 @@ class ECPay_INVOICE_VOID
 
         $arErrors = [];
 
-        // 42.發票號碼 InvoiceNumber 
-
+        // 37.發票號碼 InvoiceNo
         // *必填項目
-        if (strlen($arParameters['InvoiceNumber']) == 0) {
-            array_push($arErrors, '42:InvoiceNumber is required.');
+        if (strlen($arParameters['InvoiceNo']) == 0) {
+            array_push($arErrors, '37:InvoiceNo is required.');
         }
         // *預設長度固定10碼
-        if (strlen($arParameters['InvoiceNumber']) != 10) {
-            array_push($arErrors, '42:InvoiceNumber length as 10.');
+        if (strlen($arParameters['InvoiceNo']) != 10) {
+            array_push($arErrors, '37:InvoiceNo length as 10.');
         }
 
         // 43.作廢原因 Reason
@@ -66,7 +70,16 @@ class ECPay_INVOICE_VOID
         }
         // *字數限制在20(含)個字以內
         if (mb_strlen($arParameters['Reason'], 'UTF-8') > 20) {
-            //array_push($arErrors, "43:Reason max length as 20.");
+            array_push($arErrors, '43:Reason max length as 20.');
+        }
+
+        // 44.折讓編號 AllowanceNo
+        if (strlen($arParameters['AllowanceNo']) == 0) {
+            array_push($arErrors, '44:AllowanceNo is required.');
+        }
+        // *若有值長度固定16字元
+        if (strlen($arParameters['AllowanceNo']) != 0 && strlen($arParameters['AllowanceNo']) != 16) {
+            array_push($arErrors, '44:AllowanceNo length as 16.');
         }
 
         if (sizeof($arErrors) > 0) throw new Exception(join('<br>', $arErrors));

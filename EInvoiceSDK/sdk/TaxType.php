@@ -1,6 +1,8 @@
 <?php
 
-abstract class EcpayTaxType
+namespace ECPay\Invoice;
+
+abstract class TaxType
 {
     // 應稅
     const Dutiable = '1';
