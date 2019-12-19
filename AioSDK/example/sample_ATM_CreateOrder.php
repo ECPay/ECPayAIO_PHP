@@ -27,8 +27,8 @@
         $obj->Send['ChoosePayment']     = ECPay_PaymentMethod::ATM ;                 //付款方式:ATM
 
         //訂單的商品資料
-        array_push($obj->Send['Items'], array('Name' => '歐付寶黑芝麻豆漿', 'Price' => (int)'2000',
-                   'Currency' => '元', 'Quantity' => (int) '1', 'URL' => 'dedwed'));
+        array_push($obj->Send['Items'], ['Name' => '歐付寶黑芝麻豆漿', 'Price' => (int)'2000',
+                   'Currency' => '元', 'Quantity' => (int) '1', 'URL' => 'dedwed']);
 
         //ATM 延伸參數(可依系統需求選擇是否代入)
         $obj->SendExtend['ExpireDate'] = 3 ;     //繳費期限 (預設3天，最長60天，最短1天)

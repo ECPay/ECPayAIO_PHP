@@ -6,7 +6,7 @@
         $AL = new EcpayLogistics();
         $AL->HashKey = '5294y06JbISpM5x9';
         $AL->HashIV = 'v77hoKGq4kWxNNIS';
-        $AL->Send = array(
+        $AL->Send = [
             'MerchantID' => '2000132',
             'AllPayLogisticsID' => '15609',
 			'LogisticsSubType' => EcpayLogisticsSubType::TCAT,
@@ -24,7 +24,7 @@
             'ServerReplyURL' => HOME_URL . '/ServerReplyURL.php',
 			'GoodsAmount' => 1,
             'PlatformID' => '',
-        );
+        ];
         // CreateHomeReturnOrder()
         $Result = $AL->CreateHomeReturnOrder();
         echo '<pre>' . print_r($Result, true) . '</pre>';

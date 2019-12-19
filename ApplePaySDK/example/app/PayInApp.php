@@ -20,7 +20,7 @@ fclose($fp);
 
 
 include('ECPay.Payment.Applepay.php');
-$aMsg_Return = array();
+$aMsg_Return = [];
 $sReturn_Msg = '' ;
 
 if (isset($_POST['PaymentToken']))

@@ -87,7 +87,7 @@ class Ecpay_ApplePay
 
     function __construct(){
                 
-        $this->Send = array(
+        $this->Send = [
             'MerchantTradeNo'       => '',
             'MerchantTradeDate'     => date('Y/m/d H:i:s'),
             'TotalAmount'           => 0,
@@ -98,38 +98,38 @@ class Ecpay_ApplePay
             'TradeType'             => 2,
             'CheckMacValue'         => '',
             'PaymentToken'      => ''
-        );
+        ];
 
             // 訂單查詢
-        $this->Query = array(
+        $this->Query = [
                 'MerchantTradeNo'   => '',
                 'TimeStamp'         => ''
-        );
+        ];
 
             // 信用卡關帳/退刷/取消/放棄的方法
-        $this->Action = array(
+        $this->Action = [
             'MerchantTradeNo'   => '',
             'TradeNo'       => '',
             'Action'        => ECPay_ApplePay_ActionType::C,
             'TotalAmount'       => 0
-        );
+        ];
 
             // 訂單查詢作業
-        $this->Trade = array(
+        $this->Trade = [
             'CreditRefundId'    => '',
             'CreditAmount'      => '',
             'CreditCheckCode'   => ''
-        );
+        ];
 
             // 下載信用卡撥款對帳資料檔
-        $this->Funding = array(
+        $this->Funding = [
             'PayDateType'       => '',
             'StartDate'         => '',
             'EndDate'       => ''
-            );
+            ];
 
             // applepay button
-            $this->Applepay_Button = array(
+            $this->Applepay_Button = [
             'merchantIdentifier'    => '',
             'lable'         => '',
             'amount'        => '',
@@ -139,20 +139,20 @@ class Ecpay_ApplePay
             'server_https'      => $_SERVER['HTTPS'],
             'success_site_url'  => '',
             'order_id'      => ''
-            );
+            ];
 
             // 廠商憑證驗證
-            $this->Verify_Vendor = array(
+            $this->Verify_Vendor = [
             'displayName'       => '',
             'crt_path'      => '',
             'key_path'      => '',
             'key_password'      => ''
-            );
+            ];
     }  
 
         // 產生訂單
     public function Check_Out() {
-        $arParameters = array_merge( array('MerchantID' => $this->MerchantID) ,$this->Send);
+        $arParameters = array_merge( ['MerchantID' => $this->MerchantID] ,$this->Send);
         return $arFeedback = ECPay_ApplePay_Send::CheckOut($arParameters, $this->HashKey, $this->HashIV, ECPay_ApplePay_PaymentMethod::Credit, $this->ServiceURL);
     }
 
@@ -174,7 +174,7 @@ class Ecpay_ApplePay
         $this->Send['PaymentToken']         = isset($arPostData['PaymentToken'])    ? $arPostData['PaymentToken']       : '';
         $this->Send['TradeType']            = 1;
 
-        $arParameters = array_merge( array('MerchantID' => $this->MerchantID) ,$this->Send);
+        $arParameters = array_merge( ['MerchantID' => $this->MerchantID] ,$this->Send);
         $arFeedback = ECPay_ApplePay_Send::CheckOut($arParameters, $this->HashKey, $this->HashIV, ECPay_ApplePay_PaymentMethod::Credit, $this->ServiceURL);
 
         return json_encode($arFeedback) ;
@@ -182,22 +182,22 @@ class Ecpay_ApplePay
 
     //訂單查詢作業
     public function QueryTradeInfo() {
-        return $arFeedback = ECPay_ApplePay_QueryTradeInfo::CheckOut(array_merge($this->Query, array('MerchantID' => $this->MerchantID)), $this->HashKey, $this->HashIV, $this->ServiceURL);
+        return $arFeedback = ECPay_ApplePay_QueryTradeInfo::CheckOut(array_merge($this->Query, ['MerchantID' => $this->MerchantID]), $this->HashKey, $this->HashIV, $this->ServiceURL);
     }
 
     //信用卡關帳/退刷/取消/放棄的方法
     public function DoAction() {
-        return $arFeedback = ECPay_ApplePay_DoAction::CheckOut(array_merge($this->Action, array('MerchantID' => $this->MerchantID)), $this->HashKey, $this->HashIV, $this->ServiceURL);
+        return $arFeedback = ECPay_ApplePay_DoAction::CheckOut(array_merge($this->Action, ['MerchantID' => $this->MerchantID]), $this->HashKey, $this->HashIV, $this->ServiceURL);
     }
 
     //查詢信用卡單筆明細紀錄
     public function QueryTrade(){
-        return $arFeedback = ECPay_ApplePay_QueryTrade::CheckOut(array_merge($this->Trade, array('MerchantID' => $this->MerchantID)), $this->HashKey, $this->HashIV, $this->ServiceURL);
+        return $arFeedback = ECPay_ApplePay_QueryTrade::CheckOut(array_merge($this->Trade, ['MerchantID' => $this->MerchantID]), $this->HashKey, $this->HashIV, $this->ServiceURL);
     }
 
     //下載信用卡撥款對帳資料檔
     public function FundingReconDetail($target = '_self'){
-        $arParameters = array_merge( array('MerchantID' => $this->MerchantID) ,$this->Funding);
+        $arParameters = array_merge( ['MerchantID' => $this->MerchantID] ,$this->Funding);
         ECPay_ApplePay_FundingReconDetail::CheckOut($target, $arParameters, $this->HashKey, $this->HashIV, $this->ServiceURL);
     }
 
@@ -327,7 +327,7 @@ class ECPay_ApplePay_Send extends ECPay_ApplePay_IO
     public static $PaymentObj_Return ;
 
     // 資料檢查與過濾(送出)
-    protected static function process_send($arParameters = array(), $HashKey = '', $HashIV = '', $Payment_Method = '', $ServiceURL = ''){
+    protected static function process_send($arParameters = [], $HashKey = '', $HashIV = '', $Payment_Method = '', $ServiceURL = ''){
 
         //宣告物件
         $PaymentMethod    = 'ECPay_ApplePay_'.$Payment_Method;
@@ -392,7 +392,7 @@ class ECPay_ApplePay_Send extends ECPay_ApplePay_IO
     /**
     * 背景送出資料
     */
-    static function CheckOut($arParameters = array(), $HashKey='', $HashIV='', $Payment_Method = '', $ServiceURL=''){
+    static function CheckOut($arParameters = [], $HashKey='', $HashIV='', $Payment_Method = '', $ServiceURL=''){
         
         // 發送資訊處理
         $arParameters = self::process_send($arParameters, $HashKey, $HashIV, $Payment_Method, $ServiceURL);
@@ -424,7 +424,7 @@ function CheckOut_App($arPostData){
     $this->Send['PaymentToken']         = isset($arPostData['PaymentToken'])    ? $arPostData['PaymentToken']       : '';
     $this->Send['TradeType']            = 1;
 
-    $arParameters = array_merge( array('MerchantID' => $this->MerchantID) ,$this->Send);
+    $arParameters = array_merge( ['MerchantID' => $this->MerchantID] ,$this->Send);
     $arFeedback = ECPay_ApplePay_Send::CheckOut($arParameters, $this->HashKey, $this->HashIV, ECPay_ApplePay_PaymentMethod::Credit, $this->ServiceURL);
 
     return json_encode($arFeedback) ;
@@ -433,12 +433,12 @@ function CheckOut_App($arPostData){
 // 訂單資料查詢
 class ECPay_ApplePay_QueryTradeInfo extends ECPay_ApplePay_IO
 {
-    static function CheckOut($arParameters = array(), $HashKey ='', $HashIV ='', $ServiceURL = ''){
+    static function CheckOut($arParameters = [], $HashKey ='', $HashIV ='', $ServiceURL = ''){
        
-        $arErrors = array();
+        $arErrors = [];
         $arParameters['TimeStamp'] = time();
-        $arFeedback = array();
-        $arConfirmArgs = array();
+        $arFeedback = [];
+        $arConfirmArgs = [];
 
         // 呼叫查詢。
         if (sizeof($arErrors) == 0)
@@ -487,11 +487,11 @@ class ECPay_ApplePay_QueryTradeInfo extends ECPay_ApplePay_IO
 // 信用卡關帳/退刷/取消/放棄
 class ECPay_ApplePay_DoAction extends ECPay_ApplePay_IO
 {
-    static function CheckOut($arParameters = array(), $HashKey ='', $HashIV ='', $ServiceURL = ''){
+    static function CheckOut($arParameters = [], $HashKey ='', $HashIV ='', $ServiceURL = ''){
     
         // 變數宣告。
-        $arErrors = array();
-        $arFeedback = array();
+        $arErrors = [];
+        $arFeedback = [];
 
         //產生驗證碼
         $szCheckMacValue = ECPay_ApplePay_CheckMacValue::generate($arParameters,$HashKey,$HashIV);
@@ -512,7 +512,7 @@ class ECPay_ApplePay_DoAction extends ECPay_ApplePay_IO
         }
 
         if (array_key_exists('RtnCode', $arFeedback) && $arFeedback['RtnCode'] != '1') {
-            array_push($arErrors, vsprintf('#%s: %s', array($arFeedback['RtnCode'], $arFeedback['RtnMsg'])));
+            array_push($arErrors, vsprintf('#%s: %s', [$arFeedback['RtnCode'], $arFeedback['RtnMsg']]));
         }
         
         if (sizeof($arErrors) > 0) {
@@ -527,10 +527,10 @@ class ECPay_ApplePay_DoAction extends ECPay_ApplePay_IO
 // 查詢信用卡單筆明細記錄
 class ECPay_ApplePay_QueryTrade extends ECPay_ApplePay_IO
 {
-    static function CheckOut($arParameters = array(), $HashKey ='', $HashIV ='', $ServiceURL = ''){
-        $arErrors = array();
-        $arFeedback = array();
-        $arConfirmArgs = array();
+    static function CheckOut($arParameters = [], $HashKey ='', $HashIV ='', $ServiceURL = ''){
+        $arErrors = [];
+        $arFeedback = [];
+        $arConfirmArgs = [];
 
         // 呼叫查詢。
         if (sizeof($arErrors) == 0) {
@@ -558,7 +558,7 @@ class ECPay_ApplePay_QueryTrade extends ECPay_ApplePay_IO
 // 下載信用卡撥款對帳資料檔
 class ECPay_ApplePay_FundingReconDetail extends ECPay_ApplePay_IO
 {
-    static function CheckOut($target = '_self', $arParameters = array(), $HashKey='', $HashIV='', $ServiceURL=''){
+    static function CheckOut($target = '_self', $arParameters = [], $HashKey='', $HashIV='', $ServiceURL=''){
         //產生檢查碼
 
         $szCheckMacValue = ECPay_ApplePay_CheckMacValue::generate($arParameters, $HashKey, $HashIV);
@@ -590,9 +590,9 @@ class ECPay_ApplePay_FundingReconDetail extends ECPay_ApplePay_IO
 // 驗證廠商憑證
 class ECPay_Verify_Vendor extends ECPay_ApplePay_IO
 {
-    public function verify_vendor($arParameters = array(), $ServiceURL='', $debug_mode = false){
+    public function verify_vendor($arParameters = [], $ServiceURL='', $debug_mode = false){
 
-        $arErrors = array();
+        $arErrors = [];
 
         if( parse_url($ServiceURL, PHP_URL_SCHEME ) != 'https' )
         {
@@ -628,7 +628,7 @@ class ECPay_Verify_Vendor extends ECPay_ApplePay_IO
 // 產生apple pay buttom
 class ECPay_Apple_Button extends ECPay_ApplePay_IO{
 
-    public function generate($aApplepay_button = array()){
+    public function generate($aApplepay_button = []){
 
         // 載入CSS
         echo '<link rel="stylesheet" type="text/css" media="screen" href="applepay_button.css">' ;
@@ -650,23 +650,23 @@ class ECPay_Apple_Button extends ECPay_ApplePay_IO{
 Abstract class ECPay_ApplePay_Verification
 {
     // 所需參數
-        public $parameters = array();
+        public $parameters = [];
 
         // 需要做urlencode的參數
-        public $urlencode_field = array();
+        public $urlencode_field = [];
 
         // 不需要送壓碼的欄位
-        public $none_verification = array();
+        public $none_verification = [];
     
     /**
     * 檢查各別參數
     */
-    abstract function check_extend_string($arParameters = array());
+    abstract function check_extend_string($arParameters = []);
 
     /**
     * 檢查各別參數
     */
-    abstract function check_exception($arParameters = array());
+    abstract function check_exception($arParameters = []);
 
 
         /**
@@ -674,7 +674,7 @@ Abstract class ECPay_ApplePay_Verification
     */
     public function check_string($MerchantID = '', $HashKey = '', $HashIV = '', $Payment_Method = '', $ServiceURL = ''){
         
-        $arErrors = array();
+        $arErrors = [];
         
         // 檢查是否傳入動作方式
             if($Payment_Method == '')
@@ -716,7 +716,7 @@ Abstract class ECPay_ApplePay_Verification
     /**
     * 處理需要轉換為urlencode的參數
     */
-        function urlencode_process($arParameters = array()){
+        function urlencode_process($arParameters = []){
 
             foreach($arParameters as $key => $value)
             {
@@ -733,7 +733,7 @@ Abstract class ECPay_ApplePay_Verification
     /**
     * 產生壓碼
     */
-    function generate_checkmacvalue($arParameters = array(), $HashKey = '', $HashIV = ''){
+    function generate_checkmacvalue($arParameters = [], $HashKey = '', $HashIV = ''){
         
         $sCheck_MacValue = '';
 
@@ -758,7 +758,7 @@ Abstract class ECPay_ApplePay_Verification
         /**
     * 處理urldecode的參數
     */
-        function urldecode_process($arParameters = array()){
+        function urldecode_process($arParameters = []){
 
             foreach($arParameters as $key => $value)
             {
@@ -780,7 +780,7 @@ Abstract class ECPay_ApplePay_Verification
 class ECPay_ApplePay_Credit extends ECPay_ApplePay_Verification
 {
         // 所需參數
-        public $parameters = array(
+        public $parameters = [
         'MerchantID'        =>'',
         'MerchantTradeNo'   =>'',
         'MerchantTradeDate' =>'',
@@ -792,22 +792,22 @@ class ECPay_ApplePay_Credit extends ECPay_ApplePay_Verification
         'TradeType'             => 2,
         'CheckMacValue'     =>'',
         'PaymentToken'      =>''
-            );
+            ];
 
         // 需要做urlencode的參數
-        public $urlencode_field = array(
-            );
+        public $urlencode_field = [
+            ];
 
         // 不需要送壓碼的欄位
-        public $none_verification = array(
+        public $none_verification = [
             'PaymentToken'      =>'',
             'CheckMacValue'     =>''
-            ); 
+            ]; 
 
         /**
     * 寫入參數
     */
-        function insert_string($arParameters = array()){
+        function insert_string($arParameters = []){
             
             foreach ($this->parameters as $key => $value)
             {
@@ -823,9 +823,9 @@ class ECPay_ApplePay_Credit extends ECPay_ApplePay_Verification
         /**
     * 驗證參數格式
     */
-        function check_extend_string($arParameters = array()){
+        function check_extend_string($arParameters = []){
         
-            $arErrors = array();
+            $arErrors = [];
 
             // *預設不可為空值
             if(strlen($arParameters['MerchantID']) == 0)
@@ -923,7 +923,7 @@ class ECPay_ApplePay_Credit extends ECPay_ApplePay_Verification
         /**
     * 欄位例外處理方式(送壓碼前)
     */
-        function check_exception($arParameters = array()){
+        function check_exception($arParameters = []){
 
         return $arParameters ;
         }   
@@ -938,13 +938,13 @@ class ECPay_ApplePay_CheckMacValue
     /**
     * 產生檢查碼
     */
-    static function generate($arParameters = array(), $HashKey = '', $HashIV = ''){
+    static function generate($arParameters = [], $HashKey = '', $HashIV = ''){
 
         $sMacValue = '' ;
 
         if(isset($arParameters)){   
             
-            uksort($arParameters, array('ECPay_ApplePay_CheckMacValue','merchantSort'));
+            uksort($arParameters, ['ECPay_ApplePay_CheckMacValue','merchantSort']);
 
             // 組合字串
             $sMacValue = 'HashKey=' . $HashKey ;

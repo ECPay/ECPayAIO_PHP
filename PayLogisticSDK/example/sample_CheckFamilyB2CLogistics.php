@@ -5,11 +5,11 @@
         $AL = new EcpayLogistics();
         $AL->HashKey = '5294y06JbISpM5x9';
         $AL->HashIV = 'v77hoKGq4kWxNNIS';
-        $AL->Send = array(
+        $AL->Send = [
             'MerchantID' => '2000132',
             'RtnMerchantTradeNo' => '1601121637065',
             'PlatformID' => ''
-        );
+        ];
         // CheckFamilyB2CLogistics()
         $Result = $AL->CheckFamilyB2CLogistics();
         echo '<pre>' . print_r($Result, true) . '</pre>';

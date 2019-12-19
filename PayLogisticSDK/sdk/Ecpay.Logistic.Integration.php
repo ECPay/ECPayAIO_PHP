@@ -194,9 +194,9 @@ if (!class_exists('EcpayLogistics', false)) {
         public $ServiceURL = '';
         public $HashKey = '';
         public $HashIV = '';
-        public $Send = array();
+        public $Send = [];
         public $SendExtend = '';
-        public $PostParams = array();
+        public $PostParams = [];
         public $Encode = 'UTF-8';
 
         public function __construct() {}
@@ -211,7 +211,7 @@ if (!class_exists('EcpayLogistics', false)) {
         public function CvsMap($ButtonDesc = '電子地圖', $Target = '_self')
         {
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'MerchantTradeNo' => '',
                 'LogisticsSubType' => '',
@@ -219,7 +219,7 @@ if (!class_exists('EcpayLogistics', false)) {
                 'ServerReplyURL' => '',
                 'ExtraData' => '',
                 'Device' => EcpayDevice::PC
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
             $this->PostParams['LogisticsType'] = EcpayLogisticsType::CVS;
 
@@ -245,7 +245,7 @@ if (!class_exists('EcpayLogistics', false)) {
         public function CreateShippingOrder($ButtonDesc = '物流訂單建立', $Target = '_self')
         {
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'MerchantTradeNo' => '',
                 'MerchantTradeDate' => '',
@@ -268,7 +268,7 @@ if (!class_exists('EcpayLogistics', false)) {
                 'LogisticsC2CReplyURL' => '',
                 'Remark' => '',
                 'PlatformID' => ''
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
             $MinAmount = 1; // 金額下限
             $MaxAmount = 20000; // 金額上限
@@ -285,17 +285,17 @@ if (!class_exists('EcpayLogistics', false)) {
             // 依不同的物流類型(LogisticsType)設定專屬參數並檢查
             switch ($this->PostParams['LogisticsType']) {
                 case EcpayLogisticsType::CVS:
-                    $CvsParamList = array(
+                    $CvsParamList = [
                         'ReceiverStoreID' => '',
                         'ReturnStoreID' => ''
-                    );
+                    ];
                     $this->PostParams = $this->GetPostParams($this->SendExtend, $CvsParamList, $this->PostParams);
 
                     $this->ValidateMixTypeID('ReceiverStoreID', $this->PostParams['ReceiverStoreID'], 6);
                     $this->ValidateMixTypeID('ReturnStoreID', $this->PostParams['ReturnStoreID'], 6, true);
                     break;
                 case EcpayLogisticsType::HOME:
-                    $HomeParamList = array(
+                    $HomeParamList = [
                         'SenderZipCode' => '',
                         'SenderAddress' => '',
                         'ReceiverZipCode' => '',
@@ -306,7 +306,7 @@ if (!class_exists('EcpayLogistics', false)) {
                         'ScheduledDeliveryTime' => '',
                         'ScheduledDeliveryDate' => '',
                         'PackageCount' => 0
-                    );
+                    ];
                     $this->PostParams = $this->GetPostParams($this->SendExtend, $HomeParamList, $this->PostParams);
 					$this->PostParams['ScheduledPickupTime'] = EcpayScheduledPickupTime::UNLIMITED;
 
@@ -428,7 +428,7 @@ if (!class_exists('EcpayLogistics', false)) {
         public function BGCreateShippingOrder()
         {
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'MerchantTradeNo' => '',
                 'MerchantTradeDate' => '',
@@ -450,7 +450,7 @@ if (!class_exists('EcpayLogistics', false)) {
                 'LogisticsC2CReplyURL' => '',
                 'Remark' => '',
                 'PlatformID' => ''
-            );
+            ];
 
             // 幕後物流訂單建立不可設定Client端回覆網址(ClientReplyURL)
             if (!empty($this->Send['ClientReplyURL'])) {
@@ -473,17 +473,17 @@ if (!class_exists('EcpayLogistics', false)) {
             // 依不同的物流類型(LogisticsType)設定專屬參數並檢查
             switch ($this->PostParams['LogisticsType']) {
                 case EcpayLogisticsType::CVS:
-                    $CvsParamList = array(
+                    $CvsParamList = [
                         'ReceiverStoreID' => '',
                         'ReturnStoreID' => ''
-                    );
+                    ];
                     $this->PostParams = $this->GetPostParams($this->SendExtend, $CvsParamList, $this->PostParams);
 
                     $this->ValidateMixTypeID('ReceiverStoreID', $this->PostParams['ReceiverStoreID'], 6);
                     $this->ValidateMixTypeID('ReturnStoreID', $this->PostParams['ReturnStoreID'], 6, true);
                     break;
                 case EcpayLogisticsType::HOME:
-                    $HomeParamList = array(
+                    $HomeParamList = [
                         'SenderZipCode' => '',
                         'SenderAddress' => '',
                         'ReceiverZipCode' => '',
@@ -494,7 +494,7 @@ if (!class_exists('EcpayLogistics', false)) {
                         'ScheduledDeliveryTime' => '',
                         'ScheduledDeliveryDate' => '',
                         'PackageCount' => 0
-                    );
+                    ];
                     $this->PostParams = $this->GetPostParams($this->SendExtend, $HomeParamList, $this->PostParams);
                     $this->PostParams['ScheduledPickupTime'] = EcpayScheduledPickupTime::UNLIMITED;
 
@@ -613,10 +613,10 @@ if (!class_exists('EcpayLogistics', false)) {
             // 錯誤：0|ErrorMessage
             $Feedback = static::ServerPost($this->PostParams, $this->ServiceURL);
             $Pieces = explode('|', $Feedback);
-            $Result = array();
+            $Result = [];
             $Result['ResCode'] = $Pieces[0];
             if ($Result['ResCode']) {
-            $RtnCont = array();
+            $RtnCont = [];
             parse_str($Pieces[1], $RtnCont);
             $Result = array_merge($Result, $RtnCont);
             } else {
@@ -632,7 +632,7 @@ if (!class_exists('EcpayLogistics', false)) {
          * @param     array    $Feedback ECPay 回傳資料
          * @return    void
          */
-        public function CheckOutFeedback($Feedback = array())
+        public function CheckOutFeedback($Feedback = [])
         {
 
             $this->ValidateHashKey();
@@ -665,7 +665,7 @@ if (!class_exists('EcpayLogistics', false)) {
         {
 
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'AllPayLogisticsID' => '',
                 'LogisticsSubType' => '',
@@ -691,7 +691,7 @@ if (!class_exists('EcpayLogistics', false)) {
                 'PackageCount' => 0,
                 'Remark' => '',
                 'PlatformID' => ''
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
             $this->PostParams['ScheduledPickupTime'] = EcpayScheduledPickupTime::UNLIMITED; // 預定取件時段(ScheduledPickupTime)固定為不限時
             $IsAllpayLogisticsIdEmpty = false; // 物流交易編號(AllPayLogisticsID)是否為空
@@ -802,7 +802,7 @@ if (!class_exists('EcpayLogistics', false)) {
         {
 
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'AllPayLogisticsID' => '',
                 'ServerReplyURL' => '',
@@ -812,7 +812,7 @@ if (!class_exists('EcpayLogistics', false)) {
                 'SenderPhone' => '',
                 'Remark' => '',
                 'PlatformID' => ''
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
             $this->PostParams['CollectionAmount'] = 0;
             $this->PostParams['ServiceType'] = 4; // 退貨不付款
@@ -848,9 +848,9 @@ if (!class_exists('EcpayLogistics', false)) {
             // 錯誤：|ErrorMessage
             $Feedback = static::ServerPost($this->PostParams, $this->ServiceURL);
             $Pieces = explode('|', $Feedback);
-            $Result = array('RtnMerchantTradeNo' => '', 'RtnOrderNo' => '');
+            $Result = ['RtnMerchantTradeNo' => '', 'RtnOrderNo' => ''];
             if (empty($Pieces[0])) {
-                $Result = array('ErrorMessage' => $Pieces[1]);
+                $Result = ['ErrorMessage' => $Pieces[1]];
             } else {
                 $Result['RtnMerchantTradeNo'] = $Pieces[0];
                 $Result['RtnOrderNo'] = $Pieces[1];
@@ -868,7 +868,7 @@ if (!class_exists('EcpayLogistics', false)) {
         {
 
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'AllPayLogisticsID' => '',
                 'ServerReplyURL' => '',
@@ -878,7 +878,7 @@ if (!class_exists('EcpayLogistics', false)) {
                 'SenderPhone' => '',
                 'Remark' => '',
                 'PlatformID' => ''
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
             $this->PostParams['CollectionAmount'] = 0;
             $this->PostParams['ServiceType'] = 4;// 退貨不付款
@@ -911,9 +911,9 @@ if (!class_exists('EcpayLogistics', false)) {
             // 錯誤：|ErrorMessage
             $Feedback = static::ServerPost($this->PostParams, $this->ServiceURL);
             $Pieces = explode('|', $Feedback);
-            $Result = array('RtnMerchantTradeNo' => '', 'RtnOrderNo' => '');
+            $Result = ['RtnMerchantTradeNo' => '', 'RtnOrderNo' => ''];
             if (empty($Pieces[0])) {
-                $Result = array('ErrorMessage' => $Pieces[1]);
+                $Result = ['ErrorMessage' => $Pieces[1]];
             } else {
                 $Result['RtnMerchantTradeNo'] = $Pieces[0];
                 $Result['RtnOrderNo'] = $Pieces[1];
@@ -931,7 +931,7 @@ if (!class_exists('EcpayLogistics', false)) {
         {
 
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'AllPayLogisticsID' => '',
                 'ServerReplyURL' => '',
@@ -943,7 +943,7 @@ if (!class_exists('EcpayLogistics', false)) {
                 'Quantity' => '',
                 'Cost' => '',
                 'PlatformID' => ''
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
             $this->PostParams['CollectionAmount'] = 0;
             $this->PostParams['ServiceType'] = 4;// 退貨不付款
@@ -1001,9 +1001,9 @@ if (!class_exists('EcpayLogistics', false)) {
             // 錯誤：|ErrorMessage
             $Feedback = static::ServerPost($this->PostParams, $this->ServiceURL);
             $Pieces = explode('|', $Feedback);
-            $Result = array('RtnMerchantTradeNo' => '', 'RtnOrderNo' => '');
+            $Result = ['RtnMerchantTradeNo' => '', 'RtnOrderNo' => ''];
             if (empty($Pieces[0])) {
-                $Result = array('ErrorMessage' => $Pieces[1]);
+                $Result = ['ErrorMessage' => $Pieces[1]];
             } else {
                 $Result['RtnMerchantTradeNo'] = $Pieces[0];
                 $Result['RtnOrderNo'] = $Pieces[1];
@@ -1021,11 +1021,11 @@ if (!class_exists('EcpayLogistics', false)) {
         {
 
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'RtnMerchantTradeNo' => '',
                 'PlatformID' => ''
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
 
             // 參數檢查
@@ -1057,13 +1057,13 @@ if (!class_exists('EcpayLogistics', false)) {
         {
 
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'AllPayLogisticsID' => '',
                 'ShipmentDate' => '',
                 'ReceiverStoreID' => '',
                 'PlatformID' => ''
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
 
             // 參數檢查
@@ -1102,7 +1102,7 @@ if (!class_exists('EcpayLogistics', false)) {
         {
 
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'AllPayLogisticsID' => '',
                 'CVSPaymentNo' => '',
@@ -1111,7 +1111,7 @@ if (!class_exists('EcpayLogistics', false)) {
                 'ReceiverStoreID' => '',
                 'ReturnStoreID' => '',
                 'PlatformID' => ''
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
 
             // 參數檢查
@@ -1159,13 +1159,13 @@ if (!class_exists('EcpayLogistics', false)) {
         {
 
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'AllPayLogisticsID' => '',
                 'CVSPaymentNo' => '',
                 'CVSValidationNo' => '',
                 'PlatformID' => ''
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
 
             // 參數檢查
@@ -1199,11 +1199,11 @@ if (!class_exists('EcpayLogistics', false)) {
         {
 
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'AllPayLogisticsID' => '',
                 'PlatformID' => ''
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
             $this->PostParams['TimeStamp'] = strtotime('now');
 
@@ -1220,7 +1220,7 @@ if (!class_exists('EcpayLogistics', false)) {
 
             // 解析回傳結果
                 // 回應訊息：MerchantID=XXX&MerchantTradeNo=XXX&AllPayLogisticsID=XXX&GoodsAmount=XXX&LogisticsType=XXX&HandlingCharge=XXX&TradeDate=XXX&LogisticsStatus=XXX&GoodsName=XXX &CheckMacValue=XXX
-            $Result = array();
+            $Result = [];
             $Feedback = static::ServerPost($this->PostParams, $this->ServiceURL);
             parse_str($Feedback, $Result);
 
@@ -1238,11 +1238,11 @@ if (!class_exists('EcpayLogistics', false)) {
         {
 
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'AllPayLogisticsID' => '',
                 'PlatformID' => ''
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
 
             // 參數檢查
@@ -1269,13 +1269,13 @@ if (!class_exists('EcpayLogistics', false)) {
         {
 
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'AllPayLogisticsID' => '',
                 'CVSPaymentNo' => '',
                 'CVSValidationNo' => '',
                 'PlatformID' => ''
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
 
             // 參數檢查
@@ -1305,12 +1305,12 @@ if (!class_exists('EcpayLogistics', false)) {
         {
 
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'AllPayLogisticsID' => '',
                 'CVSPaymentNo' => '',
                 'PlatformID' => ''
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
 
             // 參數檢查
@@ -1339,12 +1339,12 @@ if (!class_exists('EcpayLogistics', false)) {
         {
 
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'AllPayLogisticsID' => '',
                 'CVSPaymentNo' => '',
                 'PlatformID' => ''
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
 
             // 參數檢查
@@ -1373,12 +1373,12 @@ if (!class_exists('EcpayLogistics', false)) {
         {
 
             // 參數初始化
-            $ParamList = array(
+            $ParamList = [
                 'MerchantID' => '',
                 'ClientReplyURL' => '',
                 'LogisticsSubType' => '',
                 'PlatformID' => ''
-            );
+            ];
             $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
 
             // 參數檢查
@@ -2041,10 +2041,10 @@ if (!class_exists('EcpayLogistics', false)) {
          * @param     array    $MergeParams    其他待合併參數
          * @return    array
          */
-        public function GetPostParams($Source, $WhiteList, $MergeParams = array())
+        public function GetPostParams($Source, $WhiteList, $MergeParams = [])
         {
             // 過濾非法參數
-            $Filtered = array();
+            $Filtered = [];
             foreach ($WhiteList as $Name => $Value) {
                 if (isset($Source[$Name])) {
                     $Filtered[$Name] = $Source[$Name];
@@ -2065,10 +2065,10 @@ if (!class_exists('EcpayLogistics', false)) {
         public function GetURL($FunctionType)
         {
             $MerchantID = $this->PostParams['MerchantID'];
-            $UrlList = array();
+            $UrlList = [];
 			if ($MerchantID == EcpayTestMerchantID::B2C or $MerchantID == EcpayTestMerchantID::C2C) {
 				// 測試環境
-				$UrlList = array(
+				$UrlList = [
 					'CVS_MAP' => EcpayTestURL::CVS_MAP,
 					'SHIPPING_ORDER' => EcpayTestURL::SHIPPING_ORDER,
 					'HOME_RETURN_ORDER' => EcpayTestURL::HOME_RETURN_ORDER,
@@ -2085,10 +2085,10 @@ if (!class_exists('EcpayLogistics', false)) {
 					'PRINT_FAMILY_C2C_BILL' => EcpayTestURL::PRINT_FAMILY_C2C_BILL,
 					'Print_HILIFE_C2C_BILL' => EcpayTestURL::Print_HILIFE_C2C_BILL,
 					'CREATE_TEST_DATA' => EcpayTestURL::CREATE_TEST_DATA,
-				);
+				];
 			} else {
 				// 正式環境
-				$UrlList = array(
+				$UrlList = [
 					'CVS_MAP' => EcpayURL::CVS_MAP,
 					'SHIPPING_ORDER' => EcpayURL::SHIPPING_ORDER,
 					'HOME_RETURN_ORDER' => EcpayURL::HOME_RETURN_ORDER,
@@ -2105,7 +2105,7 @@ if (!class_exists('EcpayLogistics', false)) {
 					'PRINT_FAMILY_C2C_BILL' => EcpayURL::PRINT_FAMILY_C2C_BILL,
 					'Print_HILIFE_C2C_BILL' => EcpayURL::Print_HILIFE_C2C_BILL,
 					'CREATE_TEST_DATA' => EcpayURL::CREATE_TEST_DATA,
-				);
+				];
 			}
 
             return $UrlList[$FunctionType];
@@ -2169,10 +2169,10 @@ if (!class_exists('EcpayLogistics', false)) {
          * @param     string    $Separator       分隔符號
          * @return    array
          */
-        public function ParseFeedback($Feedback, $FeedbackList = array('RtnCode', 'RtnMsg'), $Separator = '|')
+        public function ParseFeedback($Feedback, $FeedbackList = ['RtnCode', 'RtnMsg'], $Separator = '|')
         {
             $Pieces = explode($Separator, $Feedback);
-            $Parsed = array();
+            $Parsed = [];
             // 回傳參數檢查
             if (count($Pieces) == count($FeedbackList)) {
                 foreach ($FeedbackList as $Idx => $Name) {
@@ -2236,14 +2236,14 @@ if (!class_exists('EcpayLogistics', false)) {
          * @param     string   $HashIV     HashIV
          * @return    string
         */
-        public static function GenerateCheckMacValue($Params = array(), $HashKey = '', $HashIV = '')
+        public static function GenerateCheckMacValue($Params = [], $HashKey = '', $HashIV = '')
         {
             $MacValue = '' ;
 
             if(isset($Params)){
 
                 unset($Params['CheckMacValue']);
-                uksort($Params, array('self', 'self::MerchantSort'));
+                uksort($Params, ['self', 'self::MerchantSort']);
 
                 // 組合字串
                 $MacValue = 'HashKey=' . $HashKey ;
@@ -2289,8 +2289,8 @@ if (!class_exists('EcpayLogistics', false)) {
         {
             $Replaced = '';
             if(!empty($Target)) {
-                $SearchList = array('%2d', '%5f', '%2e', '%21', '%2a', '%28', '%29');
-                $ReplaceList = array('-', '_', '.', '!', '*' , '(', ')');
+                $SearchList = ['%2d', '%5f', '%2e', '%21', '%2a', '%28', '%29'];
+                $ReplaceList = ['-', '_', '.', '!', '*' , '(', ')'];
                 $Replaced = str_replace($SearchList, $ReplaceList, $Target);
             }
 
@@ -2307,11 +2307,11 @@ if (!class_exists('EcpayCheckMacValue', true)) {
 		/**
 		* 產生檢查碼
 		*/
-        public static function Generate($Params = array(), $HashKey = '', $HashIV = '')
+        public static function Generate($Params = [], $HashKey = '', $HashIV = '')
         {
             if (isset($Params) ){
                 unset($Params['CheckMacValue']);
-                uksort($Params, array('EcpayCheckMacValue','MerchantSort'));
+                uksort($Params, ['EcpayCheckMacValue','MerchantSort']);
 
                 // 組合字串
                 $MacValue = 'HashKey=' . $HashKey ;
