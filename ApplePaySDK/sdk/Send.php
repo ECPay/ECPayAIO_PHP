@@ -1,6 +1,10 @@
 <?php
 
-class ECPay_ApplePay_Send extends ECPay_ApplePay_IO
+namespace ECPay\ApplePay;
+
+use Exception;
+
+class Send extends IO
 {
 
     public static $PaymentObj ;
@@ -10,7 +14,7 @@ class ECPay_ApplePay_Send extends ECPay_ApplePay_IO
     protected static function process_send($arParameters = [], $HashKey = '', $HashIV = '', $Payment_Method = '', $ServiceURL = ''){
 
         //宣告物件
-        $PaymentMethod    = 'ECPay_ApplePay_'.$Payment_Method;
+        $PaymentMethod    = ''.$Payment_Method;
         self::$PaymentObj = new $PaymentMethod;
 
         // 1寫入參數
@@ -44,7 +48,7 @@ class ECPay_ApplePay_Send extends ECPay_ApplePay_IO
     protected static function process_return($sParameters = '', $HashKey = '', $HashIV = '', $Payment_Method = ''){
 
         //宣告物件
-        $PaymentMethod    = 'ECPay_ApplePay_'.$Payment_Method;
+        $PaymentMethod    = ''.$Payment_Method;
         self::$PaymentObj_Return = new $PaymentMethod;
 
         // 7json轉陣列

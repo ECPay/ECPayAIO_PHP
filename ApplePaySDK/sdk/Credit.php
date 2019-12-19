@@ -1,6 +1,10 @@
 <?php
 
-class ECPay_ApplePay_Credit extends ECPay_ApplePay_Verification
+namespace ECPay\ApplePay;
+
+use Exception;
+
+class Credit extends Verification
 {
     // 所需參數
     public $parameters = [
@@ -126,7 +130,7 @@ class ECPay_ApplePay_Credit extends ECPay_ApplePay_Verification
         }
         else
         {
-            if( $arParameters['TradeType'] != ECPay_TradeType::APP && $arParameters['TradeType'] != ECPay_TradeType::WEB )
+            if( $arParameters['TradeType'] != TradeType::APP && $arParameters['TradeType'] != TradeType::WEB )
             {
                 array_push($arErrors, 'Invalid TradeType.');
             }

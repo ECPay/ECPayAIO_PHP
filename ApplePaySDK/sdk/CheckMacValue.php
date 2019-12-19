@@ -1,7 +1,8 @@
 <?php
 
+namespace ECPay\ApplePay;
 
-class ECPay_ApplePay_CheckMacValue
+class CheckMacValue
 {
     /**
      * 產生檢查碼
@@ -12,7 +13,7 @@ class ECPay_ApplePay_CheckMacValue
 
         if(isset($arParameters)){
 
-            uksort($arParameters, ['ECPay_ApplePay_CheckMacValue','merchantSort']);
+            uksort($arParameters, ['CheckMacValue','merchantSort']);
 
             // 組合字串
             $sMacValue = 'HashKey=' . $HashKey ;
@@ -30,7 +31,7 @@ class ECPay_ApplePay_CheckMacValue
             $sMacValue = strtolower($sMacValue);
 
             // 取代為與 dotNet 相符的字元
-            $sMacValue = ECPay_ApplePay_CheckMacValue::Replace_Symbol($sMacValue);
+            $sMacValue = CheckMacValue::Replace_Symbol($sMacValue);
 
             // 編碼
             $sMacValue = hash('sha256', $sMacValue, false);

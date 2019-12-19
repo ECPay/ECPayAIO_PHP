@@ -1,11 +1,13 @@
 <?php
 
-class ECPay_ApplePay_FundingReconDetail extends ECPay_ApplePay_IO
+namespace ECPay\ApplePay;
+
+class FundingReconDetail extends IO
 {
     static function CheckOut($target = '_self', $arParameters = [], $HashKey='', $HashIV='', $ServiceURL=''){
         //產生檢查碼
 
-        $szCheckMacValue = ECPay_ApplePay_CheckMacValue::generate($arParameters, $HashKey, $HashIV);
+        $szCheckMacValue = CheckMacValue::generate($arParameters, $HashKey, $HashIV);
 
         //生成表單，自動送出
         $szHtml =  '<!DOCTYPE html>';

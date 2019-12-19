@@ -1,6 +1,8 @@
 <?php
 
-class ECPay_ApplePay_DoAction extends ECPay_ApplePay_IO
+namespace ECPay\ApplePay;
+
+class DoAction extends IO
 {
     static function CheckOut($arParameters = [], $HashKey ='', $HashIV ='', $ServiceURL = ''){
 
@@ -9,7 +11,7 @@ class ECPay_ApplePay_DoAction extends ECPay_ApplePay_IO
         $arFeedback = [];
 
         //產生驗證碼
-        $szCheckMacValue = ECPay_ApplePay_CheckMacValue::generate($arParameters,$HashKey,$HashIV);
+        $szCheckMacValue = CheckMacValue::generate($arParameters,$HashKey,$HashIV);
         $arParameters['CheckMacValue'] = $szCheckMacValue;
 
         // 送出查詢並取回結果。

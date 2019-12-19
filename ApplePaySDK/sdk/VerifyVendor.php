@@ -1,6 +1,10 @@
 <?php
 
-class ECPay_Verify_Vendor extends ECPay_ApplePay_IO
+namespace ECPay\ApplePay;
+
+use Exception;
+
+class VerifyVendor extends IO
 {
     public function verify_vendor($arParameters = [], $ServiceURL='', $debug_mode = false){
 

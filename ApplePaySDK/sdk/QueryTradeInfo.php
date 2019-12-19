@@ -1,6 +1,10 @@
 <?php
 
-class ECPay_ApplePay_QueryTradeInfo extends ECPay_ApplePay_IO
+namespace ECPay\ApplePay;
+
+use Exception;
+
+class QueryTradeInfo extends IO
 {
     static function CheckOut($arParameters = [], $HashKey ='', $HashIV ='', $ServiceURL = ''){
 
@@ -12,7 +16,7 @@ class ECPay_ApplePay_QueryTradeInfo extends ECPay_ApplePay_IO
         // 呼叫查詢。
         if (sizeof($arErrors) == 0)
         {
-            $arParameters['CheckMacValue'] = ECPay_ApplePay_CheckMacValue::generate($arParameters, $HashKey, $HashIV);
+            $arParameters['CheckMacValue'] = CheckMacValue::generate($arParameters, $HashKey, $HashIV);
 
             // 送出查詢並取回結果。
             $szResult = parent::ServerPost($arParameters, $ServiceURL);
@@ -35,7 +39,7 @@ class ECPay_ApplePay_QueryTradeInfo extends ECPay_ApplePay_IO
             // 驗證檢查碼。
             if (sizeof($arFeedback) > 0)
             {
-                $szConfirmMacValue = ECPay_ApplePay_CheckMacValue::generate($arConfirmArgs, $HashKey, $HashIV);
+                $szConfirmMacValue = CheckMacValue::generate($arConfirmArgs, $HashKey, $HashIV);
 
                 if ($szCheckMacValue != $szConfirmMacValue)
                 {

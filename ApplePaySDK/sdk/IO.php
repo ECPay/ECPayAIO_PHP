@@ -1,6 +1,10 @@
 <?php
 
-abstract class ECPay_ApplePay_IO
+namespace ECPay\ApplePay;
+
+use Exception;
+
+abstract class IO
 {
     protected static function ServerPost($parameters ,$ServiceURL){
 

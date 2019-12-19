@@ -1,6 +1,8 @@
 <?php
 
-class ECPay_Apple_Button extends ECPay_ApplePay_IO{
+namespace ECPay\ApplePay;
+
+class Button extends IO{
 
     public function generate($aApplepay_button = []){
 

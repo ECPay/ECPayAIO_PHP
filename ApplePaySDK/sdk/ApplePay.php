@@ -1,6 +1,8 @@
 <?php
 
-class Ecpay_ApplePay
+namespace ECPay\ApplePay;
+
+class ApplePay
 {
     /**
      * 版本
@@ -45,7 +47,7 @@ class Ecpay_ApplePay
         $this->Action = [
             'MerchantTradeNo'   => '',
             'TradeNo'       => '',
-            'Action'        => ECPay_ApplePay_ActionType::C,
+            'Action'        => ActionType::C,
             'TotalAmount'       => 0
         ];
 
@@ -88,7 +90,7 @@ class Ecpay_ApplePay
     // 產生訂單
     public function Check_Out() {
         $arParameters = array_merge( ['MerchantID' => $this->MerchantID] ,$this->Send);
-        return $arFeedback = ECPay_ApplePay_Send::CheckOut($arParameters, $this->HashKey, $this->HashIV, ECPay_ApplePay_PaymentMethod::Credit, $this->ServiceURL);
+        return $arFeedback = Send::CheckOut($arParameters, $this->HashKey, $this->HashIV, PaymentMethod::Credit, $this->ServiceURL);
     }
 
     /**
@@ -110,45 +112,45 @@ class Ecpay_ApplePay
         $this->Send['TradeType']            = 1;
 
         $arParameters = array_merge( ['MerchantID' => $this->MerchantID] ,$this->Send);
-        $arFeedback = ECPay_ApplePay_Send::CheckOut($arParameters, $this->HashKey, $this->HashIV, ECPay_ApplePay_PaymentMethod::Credit, $this->ServiceURL);
+        $arFeedback = Send::CheckOut($arParameters, $this->HashKey, $this->HashIV, PaymentMethod::Credit, $this->ServiceURL);
 
         return json_encode($arFeedback) ;
     }
 
     //訂單查詢作業
     public function QueryTradeInfo() {
-        return $arFeedback = ECPay_ApplePay_QueryTradeInfo::CheckOut(array_merge($this->Query, ['MerchantID' => $this->MerchantID]), $this->HashKey, $this->HashIV, $this->ServiceURL);
+        return $arFeedback = QueryTradeInfo::CheckOut(array_merge($this->Query, ['MerchantID' => $this->MerchantID]), $this->HashKey, $this->HashIV, $this->ServiceURL);
     }
 
     //信用卡關帳/退刷/取消/放棄的方法
     public function DoAction() {
-        return $arFeedback = ECPay_ApplePay_DoAction::CheckOut(array_merge($this->Action, ['MerchantID' => $this->MerchantID]), $this->HashKey, $this->HashIV, $this->ServiceURL);
+        return $arFeedback = DoAction::CheckOut(array_merge($this->Action, ['MerchantID' => $this->MerchantID]), $this->HashKey, $this->HashIV, $this->ServiceURL);
     }
 
     //查詢信用卡單筆明細紀錄
     public function QueryTrade(){
-        return $arFeedback = ECPay_ApplePay_QueryTrade::CheckOut(array_merge($this->Trade, ['MerchantID' => $this->MerchantID]), $this->HashKey, $this->HashIV, $this->ServiceURL);
+        return $arFeedback = QueryTrade::CheckOut(array_merge($this->Trade, ['MerchantID' => $this->MerchantID]), $this->HashKey, $this->HashIV, $this->ServiceURL);
     }
 
     //下載信用卡撥款對帳資料檔
     public function FundingReconDetail($target = '_self'){
         $arParameters = array_merge( ['MerchantID' => $this->MerchantID] ,$this->Funding);
-        ECPay_ApplePay_FundingReconDetail::CheckOut($target, $arParameters, $this->HashKey, $this->HashIV, $this->ServiceURL);
+        FundingReconDetail::CheckOut($target, $arParameters, $this->HashKey, $this->HashIV, $this->ServiceURL);
     }
 
     // 產生applepay 按鈕
     public function applepay_button(){
-        ECPay_Apple_Button::generate($this->Applepay_Button);
+        Button::generate($this->Applepay_Button);
     }
 
     // 驗證憑證
     public function Verify_Vendor(){
-        return $arFeedback = ECPay_Verify_Vendor::verify_vendor($this->Verify_Vendor, $this->ServiceURL);
+        return $arFeedback = VerifyVendor::verify_vendor($this->Verify_Vendor, $this->ServiceURL);
     }
 
 
     // 測試驗證憑證
     public function Verify_Vendor_Test(){
-        return $arFeedback = ECPay_Verify_Vendor::verify_vendor($this->Verify_Vendor, $this->ServiceURL, true);
+        return $arFeedback = VerifyVendor::verify_vendor($this->Verify_Vendor, $this->ServiceURL, true);
     }
 }

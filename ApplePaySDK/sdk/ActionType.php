@@ -1,6 +1,8 @@
 <?php
 
-abstract class ECPay_ApplePay_ActionType {
+namespace ECPay\ApplePay;
+
+abstract class ActionType {
 
     /**
      * 關帳

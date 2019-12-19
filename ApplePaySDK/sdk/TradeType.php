@@ -1,6 +1,8 @@
 <?php
 
-abstract class ECPay_TradeType {
+namespace ECPay\ApplePay;
+
+abstract class TradeType {
 
     /**
      * In App

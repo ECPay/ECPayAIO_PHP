@@ -1,7 +1,10 @@
 <?php
 
+namespace ECPay\ApplePay;
 
-abstract class ECPay_ApplePay_Verification
+use Exception;
+
+abstract class Verification
 {
     // 所需參數
     public $parameters = [];
@@ -77,7 +80,7 @@ abstract class ECPay_ApplePay_Verification
             if(isset($this->urlencode_field[$key]))
             {
                 $arParameters[$key] = urlencode($value);
-                $arParameters[$key] = ECPay_ApplePay_CheckMacValue::Replace_Symbol($arParameters[$key]);
+                $arParameters[$key] = CheckMacValue::Replace_Symbol($arParameters[$key]);
             }
         }
 
@@ -100,13 +103,13 @@ abstract class ECPay_ApplePay_Verification
             }
         }
 
-        $sCheck_MacValue = ECPay_ApplePay_CheckMacValue::generate($arParameters, $HashKey, $HashIV);
+        $sCheck_MacValue = CheckMacValue::generate($arParameters, $HashKey, $HashIV);
 
         return $sCheck_MacValue ;
     }
 
     function generate_encrypt_data($sPaymentToken, $HashKey, $HashIV){
-        return ECPay_ApplePay_CheckMacValue::encrypt_data($sPaymentToken, $HashKey, $HashIV);
+        return CheckMacValue::encrypt_data($sPaymentToken, $HashKey, $HashIV);
     }
 
     /**
@@ -118,7 +121,7 @@ abstract class ECPay_ApplePay_Verification
         {
             if(isset($this->urlencode_field[$key]))
             {
-                $arParameters[$key] = ECPay_ApplePay_CheckMacValue::Replace_Symbol_Decode($arParameters[$key]);
+                $arParameters[$key] = CheckMacValue::Replace_Symbol_Decode($arParameters[$key]);
                 $arParameters[$key] = urldecode($value);
             }
         }
