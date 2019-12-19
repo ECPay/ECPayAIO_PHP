@@ -9,7 +9,7 @@
         $AL->Send = array(
             'MerchantID' => '2000132',
             'AllPayLogisticsID' => '15609',
-			"LogisticsSubType" => EcpayLogisticsSubType::TCAT,
+			'LogisticsSubType' => EcpayLogisticsSubType::TCAT,
             'SenderName' => '測試寄件者',
             'SenderPhone' => '0226550115',
             'SenderCellPhone' => '0933222111',

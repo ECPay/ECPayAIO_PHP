@@ -9,12 +9,12 @@ $ServiceURL 	= 'https://payment-stage.ecpay.com.tw/ApplePay/CreateServerOrder/V2
 
 
 $sLog = '傳入參數+++++++++++++++++++++++++++++++++++++++ ' . date('Y-m-d H:i:s') . ' ++++++++++++++++++++++++++++++++++++++++++++' . "\n";
-$fp=fopen($sLog_Path, "a+");
+$fp=fopen($sLog_Path, 'a+');
 fputs($fp, $sLog);
 fclose($fp);
 
 $test = print_r($_POST, true);
-$fp=fopen($sLog_Path, "a+");
+$fp=fopen($sLog_Path, 'a+');
 fputs($fp, $test);
 fclose($fp);
 
@@ -31,12 +31,12 @@ if (isset($_POST['PaymentToken']))
 
 
 $sLog = "\n" . 'json encode --------------------------------------------------------------------------------------------------------------------'. "\n";
-$fp=fopen($sLog_Path, "a+");
+$fp=fopen($sLog_Path, 'a+');
 fputs($fp, $sLog);
 fclose($fp);
 
 $test = print_r($_POST, true);
-$fp=fopen($sLog_Path, "a+");
+$fp=fopen($sLog_Path, 'a+');
 fputs($fp, $test);
 fclose($fp);
 
@@ -51,16 +51,16 @@ $sReturn_Msg =  $ecpay_apple_pay->CheckOut_App($_POST) ;
 echo $sReturn_Msg ;
 
 $sLog = "\n" . 'return ------------------------------------------------------------------------------------------------------------------------------'. "\n";
-$fp=fopen($sLog_Path, "a+");
+$fp=fopen($sLog_Path, 'a+');
 fputs($fp, $sLog);
 fclose($fp);
 
 $test = $sReturn_Msg;
-$fp=fopen($sLog_Path, "a+");
+$fp=fopen($sLog_Path, 'a+');
 fputs($fp, $test);
 fclose($fp);
 
 $sLog = "\n" . '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'. "\n";
-$fp=fopen($sLog_Path, "a+");
+$fp=fopen($sLog_Path, 'a+');
 fputs($fp, $sLog);
 fclose($fp);

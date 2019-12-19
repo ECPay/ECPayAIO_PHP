@@ -196,7 +196,7 @@ class Ecpay_ApplePay
     }
 
     //下載信用卡撥款對帳資料檔
-    public function FundingReconDetail($target = "_self"){
+    public function FundingReconDetail($target = '_self'){
         $arParameters = array_merge( array('MerchantID' => $this->MerchantID) ,$this->Funding);
         ECPay_ApplePay_FundingReconDetail::CheckOut($target, $arParameters, $this->HashKey, $this->HashIV, $this->ServiceURL);
     }
@@ -270,7 +270,7 @@ abstract class ECPay_ApplePay_IO
         // create a new cURL resource
         $ch = curl_init();
 
-        $data = '{"merchantIdentifier":"'.$sMerchantIdentifier.'", "domainName":"'.$_SERVER["SERVER_NAME"].'", "displayName":"'.$parameters['displayName'].'"}';
+        $data = '{"merchantIdentifier":"'.$sMerchantIdentifier.'", "domainName":"'.$_SERVER['SERVER_NAME'].'", "displayName":"'.$parameters['displayName'].'"}';
 
         curl_setopt($ch, CURLOPT_URL, $ServiceURL);
         curl_setopt($ch, CURLOPT_SSLCERT, $parameters['crt_path']);
@@ -295,7 +295,7 @@ abstract class ECPay_ApplePay_IO
         {
             if( $result === false)
             {
-                $Return_Msg .= curl_errno($ch) . " - " . curl_error($ch);   
+                $Return_Msg .= curl_errno($ch) . ' - ' . curl_error($ch);   
             }
             else
             {    
@@ -443,7 +443,7 @@ class ECPay_ApplePay_QueryTradeInfo extends ECPay_ApplePay_IO
         // 呼叫查詢。
         if (sizeof($arErrors) == 0)
         {
-            $arParameters["CheckMacValue"] = ECPay_ApplePay_CheckMacValue::generate($arParameters, $HashKey, $HashIV);
+            $arParameters['CheckMacValue'] = ECPay_ApplePay_CheckMacValue::generate($arParameters, $HashKey, $HashIV);
             
             // 送出查詢並取回結果。
             $szResult = parent::ServerPost($arParameters, $ServiceURL);
@@ -495,7 +495,7 @@ class ECPay_ApplePay_DoAction extends ECPay_ApplePay_IO
 
         //產生驗證碼
         $szCheckMacValue = ECPay_ApplePay_CheckMacValue::generate($arParameters,$HashKey,$HashIV);
-        $arParameters["CheckMacValue"] = $szCheckMacValue;
+        $arParameters['CheckMacValue'] = $szCheckMacValue;
       
         // 送出查詢並取回結果。
         $szResult = self::ServerPost($arParameters,$ServiceURL);
@@ -534,7 +534,7 @@ class ECPay_ApplePay_QueryTrade extends ECPay_ApplePay_IO
 
         // 呼叫查詢。
         if (sizeof($arErrors) == 0) {
-            $arParameters["CheckMacValue"] = ECPay_ApplePay_CheckMacValue::generate($arParameters, $HashKey, $HashIV);
+            $arParameters['CheckMacValue'] = ECPay_ApplePay_CheckMacValue::generate($arParameters, $HashKey, $HashIV);
             // 送出查詢並取回結果。
             $szResult = parent::ServerPost($arParameters,$ServiceURL);
             
@@ -558,7 +558,7 @@ class ECPay_ApplePay_QueryTrade extends ECPay_ApplePay_IO
 // 下載信用卡撥款對帳資料檔
 class ECPay_ApplePay_FundingReconDetail extends ECPay_ApplePay_IO
 {
-    static function CheckOut($target = "_self", $arParameters = array(), $HashKey='', $HashIV='', $ServiceURL=''){
+    static function CheckOut($target = '_self', $arParameters = array(), $HashKey='', $HashIV='', $ServiceURL=''){
         //產生檢查碼
 
         $szCheckMacValue = ECPay_ApplePay_CheckMacValue::generate($arParameters, $HashKey, $HashIV);
@@ -594,12 +594,12 @@ class ECPay_Verify_Vendor extends ECPay_ApplePay_IO
 
         $arErrors = array();
 
-        if( parse_url($ServiceURL, PHP_URL_SCHEME ) != "https" )
+        if( parse_url($ServiceURL, PHP_URL_SCHEME ) != 'https' )
         {
             array_push($arErrors, 'ServiceURL verify fail.');
         }
 
-        if( substr( parse_url($ServiceURL, PHP_URL_HOST), -10 )  != ".apple.com")
+        if( substr( parse_url($ServiceURL, PHP_URL_HOST), -10 )  != '.apple.com')
         {
             array_push($arErrors, 'ServiceURL verify fail.');
         }
@@ -1033,7 +1033,7 @@ class ECPay_ApplePay_CheckMacValue
     */
     static function encrypt_data($sPost_Data = '', $sKey = '', $sIv = '')
     {
-        $encrypted = openssl_encrypt($sPost_Data, "AES-128-CBC",$sKey, OPENSSL_RAW_DATA, $sIv);
+        $encrypted = openssl_encrypt($sPost_Data, 'AES-128-CBC',$sKey, OPENSSL_RAW_DATA, $sIv);
 
         $encrypted = base64_encode($encrypted);                             //Base64編碼
         $encrypted = urlencode($encrypted);                                 // urlencode
@@ -1062,7 +1062,7 @@ class ECPay_ApplePay_CheckMacValue
         $sPost_Data = urldecode($sPost_Data);                               // urldecode
         $sPost_Data = base64_decode($sPost_Data);                           //Base64解碼
 
-        $decrypted = openssl_decrypt($sPost_Data, "AES-128-CBC", $sKey, OPENSSL_RAW_DATA, $sIv);
+        $decrypted = openssl_decrypt($sPost_Data, 'AES-128-CBC', $sKey, OPENSSL_RAW_DATA, $sIv);
 
         return $decrypted ;
     }

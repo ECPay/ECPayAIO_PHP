@@ -670,7 +670,7 @@ class ECPay_INVOICE
 		{
 			if (mb_strlen($arParameters['CustomerName'], 'UTF-8') == 0 && $arParameters['OnLine'])
 			{
-				array_push($arErrors, "7:CustomerName is required.");
+				array_push($arErrors, '7:CustomerName is required.');
 			}
 		}
 		// *預設最大長度為30碼
@@ -686,13 +686,13 @@ class ECPay_INVOICE
 		{
 			if (mb_strlen($arParameters['CustomerAddr'], 'UTF-8') == 0 && $arParameters['OnLine'])
 			{
-				array_push($arErrors, "8:CustomerAddr is required.");
+				array_push($arErrors, '8:CustomerAddr is required.');
 			}
 		}
 		// *預設最大長度為100碼
 		if (mb_strlen($arParameters['CustomerAddr'], 'UTF-8') > 100)
 		{
-			array_push($arErrors, "8:CustomerAddr max length as 100.");
+			array_push($arErrors, '8:CustomerAddr max length as 100.');
 		}
 
 	        // 9.客戶手機號碼 CustomerPhone
@@ -700,7 +700,7 @@ class ECPay_INVOICE
 	        // *預設最小長度為1碼，最大長度為20碼
 		if (strlen($arParameters['CustomerPhone']) > 20)
 		{
-			array_push($arErrors, "9:CustomerPhone max length as 20.");
+			array_push($arErrors, '9:CustomerPhone max length as 20.');
 		}
 		// *預設格式為數字組成
 		if (strlen($arParameters['CustomerPhone']) > 0)
@@ -716,7 +716,7 @@ class ECPay_INVOICE
 		// *預設最大長度為80碼
 		if (strlen($arParameters['CustomerEmail']) > 80)
 		{
-			array_push($arErrors, "10:CustomerEmail max length as 80.");
+			array_push($arErrors, '10:CustomerEmail max length as 80.');
 		}
 		// *若客戶電子信箱有值時，則格式僅能為Email的標準格式
 		if(strlen($arParameters['CustomerEmail']) > 0 )
@@ -732,7 +732,7 @@ class ECPay_INVOICE
 		// *若客戶手機號碼為空值時，則客戶電子信箱不可為空值 
 		if (strlen($arParameters['CustomerPhone']) == 0 && strlen($arParameters['CustomerEmail']) == 0 && $arParameters['OnLine'])
 		{
-			array_push($arErrors, "9-10:CustomerPhone or CustomerEmail is required.");
+			array_push($arErrors, '9-10:CustomerPhone or CustomerEmail is required.');
 		}	
         	
         	// 11.通關方式 ClearanceMark(預設為空字串)
@@ -740,7 +740,7 @@ class ECPay_INVOICE
         	// *最多1字元
 		if (strlen($arParameters['ClearanceMark']) > 1)
 		{
-          		array_push($arErrors, "11:ClearanceMark max length as 1.");
+          		array_push($arErrors, '11:ClearanceMark max length as 1.');
 		}
 		
 		// *課稅類別為零稅率(Zero)或課稅類別為混合稅率(Mix)且商品課稅別存在零稅率時，此參數不可為空字串
@@ -748,7 +748,7 @@ class ECPay_INVOICE
 		{
 			if ( ( $arParameters['ClearanceMark'] != EcpayClearanceMark::Yes ) && ( $arParameters['ClearanceMark'] != EcpayClearanceMark::No ) )
 			{
-				array_push($arErrors, "11:ClearanceMark is required.");
+				array_push($arErrors, '11:ClearanceMark is required.');
 			}
 		}
 
@@ -757,14 +757,14 @@ class ECPay_INVOICE
         	// *列印註記僅能為 0 或 1
 		if ( ( $arParameters['Print'] != EcpayPrintMark::Yes ) && ( $arParameters['Print'] != EcpayPrintMark::No ) )
 		{
-			array_push($arErrors, "12:Invalid Print.");
+			array_push($arErrors, '12:Invalid Print.');
 		}
 		// *若捐贈註記 = '1' (捐贈)時，則VAL = '0' (不列印)
 		if ($arParameters['Donation'] == EcpayDonation::Yes)
 		{
 			if ($arParameters['Print'] != EcpayPrintMark::No)
 			{
-				array_push($arErrors, "12:Donation Print should be No.");
+				array_push($arErrors, '12:Donation Print should be No.');
 			}
 		}
 		// *若統一編號有值時，則VAL = '1' (列印)
@@ -772,7 +772,7 @@ class ECPay_INVOICE
 		{
 			if ($arParameters['Print'] != EcpayPrintMark::Yes)
 			{
-              			array_push($arErrors, "12:CustomerIdentifier Print should be Yes.");
+              			array_push($arErrors, '12:CustomerIdentifier Print should be Yes.');
 			}
 		}
 		// 線下列印判斷
@@ -783,7 +783,7 @@ class ECPay_INVOICE
 			{
 				if ($arParameters['Print'] != EcpayPrintMark::Yes)
 				{
-	              			array_push($arErrors, "12:Offline Print should be Yes.");
+	              			array_push($arErrors, '12:Offline Print should be Yes.');
 				}
 			}
 		}
@@ -793,12 +793,12 @@ class ECPay_INVOICE
 		// *固定給定下述預設值若為捐贈時，則VAL = '1'，若為不捐贈時，則VAL = '0'
 		if ( ($arParameters['Donation'] != EcpayDonation::Yes ) && ( $arParameters['Donation'] != EcpayDonation::No ) )
 		{
-			array_push($arErrors, "13:Invalid Donation.");
+			array_push($arErrors, '13:Invalid Donation.');
 		}
 		// *若統一編號有值時，則VAL = '2' (不捐贈)
 		if (strlen($arParameters['CustomerIdentifier']) > 0 && $arParameters['Donation'] == EcpayDonation::Yes )
 		{
-			array_push($arErrors, "13:CustomerIdentifier Donation should be No.");
+			array_push($arErrors, '13:CustomerIdentifier Donation should be No.');
 		}
 		
 		
@@ -809,14 +809,14 @@ class ECPay_INVOICE
 		{
 			if ( !preg_match('/^([xX]{1}[0-9]{2,6}|[0-9]{3,7})$/', $arParameters['LoveCode']) )
 			{
-              			array_push($arErrors, "14:Invalid LoveCode.");
+              			array_push($arErrors, '14:Invalid LoveCode.');
 			}
 		}
 		else
 		{
 			if (strlen($arParameters['LoveCode']) > 0)
 			{
-				array_push($arErrors, "14:Please remove LoveCode.");
+				array_push($arErrors, '14:Please remove LoveCode.');
 			}
 		}
 		
@@ -825,7 +825,7 @@ class ECPay_INVOICE
 		// *固定給定下述預設值None、Member、Cellphone
 		if ( ( $arParameters['CarruerType'] != EcpayCarruerType::None ) && ( $arParameters['CarruerType'] != EcpayCarruerType::Member ) && ( $arParameters['CarruerType'] != EcpayCarruerType::Citizen ) && ( $arParameters['CarruerType'] != EcpayCarruerType::Cellphone ) )
 		{
-			array_push($arErrors, "15:Invalid CarruerType.");
+			array_push($arErrors, '15:Invalid CarruerType.');
 		}
 		else
 		{
@@ -834,7 +834,7 @@ class ECPay_INVOICE
 			{
 				if ($arParameters['CarruerType'] == EcpayCarruerType::Member || $arParameters['CarruerType'] == EcpayCarruerType::Citizen )
 				{
-                  			array_push($arErrors, "15:Invalid CarruerType.");
+                  			array_push($arErrors, '15:Invalid CarruerType.');
               			}		
 			}
 		}
@@ -847,7 +847,7 @@ class ECPay_INVOICE
       			case EcpayCarruerType::Member:
 				if (strlen($arParameters['CarruerNum']) > 0)
 				{
-              				array_push($arErrors, "16:Please remove CarruerNum.");
+              				array_push($arErrors, '16:Please remove CarruerNum.');
           			}
          		 break;
          		 
@@ -855,7 +855,7 @@ class ECPay_INVOICE
 			case EcpayCarruerType::Citizen:
 				if ( !preg_match('/^[a-zA-Z]{2}\d{14}$/', $arParameters['CarruerNum']) )
           			{
-              				array_push($arErrors, "16:Invalid CarruerNum.");
+              				array_push($arErrors, '16:Invalid CarruerNum.');
                           	}
 			break;
       
@@ -863,11 +863,11 @@ class ECPay_INVOICE
       			case EcpayCarruerType::Cellphone:
 				if ( !preg_match('/^\/{1}[0-9A-Z+-.]{7}$/', $arParameters['CarruerNum']) )
 				{
-					array_push($arErrors, "16:Invalid CarruerNum.");
+					array_push($arErrors, '16:Invalid CarruerNum.');
 				}
 			break;
 			default:
-				array_push($arErrors, "16:Please remove CarruerNum.");
+				array_push($arErrors, '16:Please remove CarruerNum.');
 		}
 		
 		// 17.課稅類別 TaxType(不可為空)
@@ -875,12 +875,12 @@ class ECPay_INVOICE
 		// *不可為空
 		if (strlen($arParameters['TaxType']) == 0)
 		{
-			array_push($arErrors, "17:TaxType is required.");
+			array_push($arErrors, '17:TaxType is required.');
 		}
 		// *僅能為 1應稅 2零稅率 3免稅 9.應稅與免稅混合
 		if ( ( $arParameters['TaxType'] != EcpayTaxType::Dutiable ) && ( $arParameters['TaxType'] != EcpayTaxType::Zero ) && ( $arParameters['TaxType'] != EcpayTaxType::Free ) && ( $arParameters['TaxType'] != EcpayTaxType::Mix ) )
 		{
-			array_push($arErrors, "17:Invalid TaxType.");
+			array_push($arErrors, '17:Invalid TaxType.');
 		}
 		
 		
@@ -889,7 +889,7 @@ class ECPay_INVOICE
 		// *不可為空
 		if (strlen($arParameters['SalesAmount']) == 0)
 		{
-			array_push($arErrors, "18:SalesAmount is required.");
+			array_push($arErrors, '18:SalesAmount is required.');
 		}
 		
 		// 20.21.22.23.24.25. 商品資訊
@@ -1016,7 +1016,7 @@ class ECPay_INVOICE
 	        		// *檢查商品總金額
 					if ( $arParameters['SalesAmount'] != round($nCheck_Amount))
 					{
-						array_push($arErrors, "18.2:Invalid SalesAmount.");
+						array_push($arErrors, '18.2:Invalid SalesAmount.');
 					}
 
 					// *檢查商品課稅別
@@ -1024,16 +1024,16 @@ class ECPay_INVOICE
 					// 課稅類別為混合稅率時
 					if ($arParameters['TaxType'] == EcpayTaxType::Mix)
 					{
-						$ItemTaxType = explode("|", $arParameters['ItemTaxType']);
+						$ItemTaxType = explode('|', $arParameters['ItemTaxType']);
 						// 商品課稅別不可為空
 						if(empty($arParameters['ItemTaxType']))
 						{
-							array_push($arErrors, "24:ItemTaxType is required.");
+							array_push($arErrors, '24:ItemTaxType is required.');
 						}
 						// 需含二筆或以上的商品課稅別
 						if ( count($ItemTaxType) < 2)
 						{
-							array_push($arErrors, "24:ItemTaxType should be more than 2.");
+							array_push($arErrors, '24:ItemTaxType should be more than 2.');
 						}
 
 						// 免稅和零稅率發票不能同時開立
@@ -1043,7 +1043,7 @@ class ECPay_INVOICE
 						$items = array_unique($ItemTaxType);
 						if ( count($items) != 2 || !in_array(1, $items))
 						{
-							array_push($arErrors, "24:ItemTaxType error.");
+							array_push($arErrors, '24:ItemTaxType error.');
 						}
 					}
 	        	}
@@ -1054,7 +1054,7 @@ class ECPay_INVOICE
 		// *InvType(不可為空) 僅能為 07 或 08 狀態
 		if( ( $arParameters['InvType'] != EcpayInvType::General ) && ( $arParameters['InvType'] != EcpayInvType::Special ) )
 		{
-			array_push($arErrors, "27:Invalid InvType.");
+			array_push($arErrors, '27:Invalid InvType.');
 		}
 
         	// 29.商品單價是否含稅(預設為含稅價)
@@ -1064,7 +1064,7 @@ class ECPay_INVOICE
 		{
 			if( ( $arParameters['vat'] != EcpayVatType::Yes ) && ( $arParameters['vat'] != EcpayVatType::No ) )
 			{
-				array_push($arErrors, "29:Invalid VatType.");
+				array_push($arErrors, '29:Invalid VatType.');
 			}	
 		}
 
@@ -1270,7 +1270,7 @@ class ECPay_INVOICE_DELAY
 		{
 			if (mb_strlen($arParameters['CustomerName'], 'UTF-8') == 0)
 			{
-				array_push($arErrors, "7:CustomerName is required.");
+				array_push($arErrors, '7:CustomerName is required.');
 			}
 		}
 		// *預設最大長度為30碼
@@ -1286,13 +1286,13 @@ class ECPay_INVOICE_DELAY
 		{
 			if (mb_strlen($arParameters['CustomerAddr'], 'UTF-8') == 0)
 			{
-				array_push($arErrors, "8:CustomerAddr is required.");
+				array_push($arErrors, '8:CustomerAddr is required.');
 			}
 		}
 		// *預設最大長度為100碼
 		if (mb_strlen($arParameters['CustomerAddr'], 'UTF-8') > 100)
 		{
-			array_push($arErrors, "8:CustomerAddr max length as 100.");
+			array_push($arErrors, '8:CustomerAddr max length as 100.');
 		}
 
 	        // 9.客戶手機號碼 CustomerPhone
@@ -1300,7 +1300,7 @@ class ECPay_INVOICE_DELAY
 	        // *預設最小長度為1碼，最大長度為20碼
 		if (strlen($arParameters['CustomerPhone']) > 20)
 		{
-			array_push($arErrors, "9:CustomerPhone max length as 20.");
+			array_push($arErrors, '9:CustomerPhone max length as 20.');
 		}
 		// *預設格式為數字組成
 		if (strlen($arParameters['CustomerPhone']) > 0)
@@ -1316,7 +1316,7 @@ class ECPay_INVOICE_DELAY
 		// *預設最大長度為80碼
 		if (strlen($arParameters['CustomerEmail']) > 80)
 		{
-			array_push($arErrors, "10:CustomerEmail max length as 80.");
+			array_push($arErrors, '10:CustomerEmail max length as 80.');
 		}
 		// *若客戶電子信箱有值時，則格式僅能為Email的標準格式
 		if(strlen($arParameters['CustomerEmail']) > 0 )
@@ -1332,7 +1332,7 @@ class ECPay_INVOICE_DELAY
 		// *若客戶手機號碼為空值時，則客戶電子信箱不可為空值 
 		if (strlen($arParameters['CustomerPhone']) == 0 && strlen($arParameters['CustomerEmail']) == 0)
 		{
-			array_push($arErrors, "9-10:CustomerPhone or CustomerEmail is required.");
+			array_push($arErrors, '9-10:CustomerPhone or CustomerEmail is required.');
 		}	
         	
         	// 11.通關方式 ClearanceMark(預設為空字串)
@@ -1340,7 +1340,7 @@ class ECPay_INVOICE_DELAY
         	// *最多1字元
 		if (strlen($arParameters['ClearanceMark']) > 1)
 		{
-          		array_push($arErrors, "11:ClearanceMark max length as 1.");
+          		array_push($arErrors, '11:ClearanceMark max length as 1.');
 		}
 
 		// *課稅類別為零稅率(Zero)或課稅類別為混合稅率(Mix)且商品課稅別存在零稅率時，此參數不可為空字串
@@ -1348,7 +1348,7 @@ class ECPay_INVOICE_DELAY
 		{
 			if ( ( $arParameters['ClearanceMark'] != EcpayClearanceMark::Yes ) && ( $arParameters['ClearanceMark'] != EcpayClearanceMark::No ) )
 			{
-				array_push($arErrors, "11:ClearanceMark is required.");
+				array_push($arErrors, '11:ClearanceMark is required.');
 			}
 		}
 
@@ -1357,14 +1357,14 @@ class ECPay_INVOICE_DELAY
         	// *列印註記僅能為 0 或 1
 		if ( ( $arParameters['Print'] != EcpayPrintMark::Yes ) && ( $arParameters['Print'] != EcpayPrintMark::No ) )
 		{
-			array_push($arErrors, "12:Invalid Print.");
+			array_push($arErrors, '12:Invalid Print.');
 		}
 		// *若捐贈註記 = '1' (捐贈)時，則VAL = '0' (不列印)
 		if ($arParameters['Donation'] == EcpayDonation::Yes)
 		{
 			if ($arParameters['Print'] != EcpayPrintMark::No)
 			{
-				array_push($arErrors, "12:Donation Print should be No.");
+				array_push($arErrors, '12:Donation Print should be No.');
 			}
 		}
 		// *若統一編號有值時，則VAL = '1' (列印)
@@ -1372,7 +1372,7 @@ class ECPay_INVOICE_DELAY
 		{
 			if ($arParameters['Print'] != EcpayPrintMark::Yes)
 			{
-              			array_push($arErrors, "12:CustomerIdentifier Print should be Yes.");
+              			array_push($arErrors, '12:CustomerIdentifier Print should be Yes.');
 			}
 		}	
 		
@@ -1381,12 +1381,12 @@ class ECPay_INVOICE_DELAY
 		// *固定給定下述預設值若為捐贈時，則VAL = '1'，若為不捐贈時，則VAL = '0'
 		if ( ($arParameters['Donation'] != EcpayDonation::Yes ) && ( $arParameters['Donation'] != EcpayDonation::No ) )
 		{
-			array_push($arErrors, "13:Invalid Donation.");
+			array_push($arErrors, '13:Invalid Donation.');
 		}
 		// *若統一編號有值時，則VAL = '0' (不捐贈)
 		if (strlen($arParameters['CustomerIdentifier']) > 0 && $arParameters['Donation'] == EcpayDonation::Yes )
 		{
-			array_push($arErrors, "13:CustomerIdentifier Donation should be No.");
+			array_push($arErrors, '13:CustomerIdentifier Donation should be No.');
 		}
 		
 		
@@ -1397,14 +1397,14 @@ class ECPay_INVOICE_DELAY
 		{
 			if ( !preg_match('/^([xX]{1}[0-9]{2,6}|[0-9]{3,7})$/', $arParameters['LoveCode']) )
 			{
-              			array_push($arErrors, "14:Invalid LoveCode.");
+              			array_push($arErrors, '14:Invalid LoveCode.');
 			}
 		}
 		else
 		{
 			if (strlen($arParameters['LoveCode']) > 0)
 			{
-				array_push($arErrors, "14:Please remove LoveCode.");
+				array_push($arErrors, '14:Please remove LoveCode.');
 			}
 		}
 		
@@ -1413,7 +1413,7 @@ class ECPay_INVOICE_DELAY
 		// *固定給定下述預設值None、Member、Cellphone
 		if ( ( $arParameters['CarruerType'] != EcpayCarruerType::None ) && ( $arParameters['CarruerType'] != EcpayCarruerType::Member ) && ( $arParameters['CarruerType'] != EcpayCarruerType::Citizen ) && ( $arParameters['CarruerType'] != EcpayCarruerType::Cellphone ) )
 		{
-			array_push($arErrors, "15:Invalid CarruerType.");
+			array_push($arErrors, '15:Invalid CarruerType.');
 		}
 		else
 		{
@@ -1422,7 +1422,7 @@ class ECPay_INVOICE_DELAY
 			{
 				if ($arParameters['CarruerType'] == EcpayCarruerType::Member || $arParameters['CarruerType'] == EcpayCarruerType::Citizen )
 				{
-                  			array_push($arErrors, "15:Invalid CarruerType.");
+                  			array_push($arErrors, '15:Invalid CarruerType.');
               			}		
 			}
 		}
@@ -1435,7 +1435,7 @@ class ECPay_INVOICE_DELAY
       			case EcpayCarruerType::Member:
 				if (strlen($arParameters['CarruerNum']) > 0)
 				{
-              				array_push($arErrors, "16:Please remove CarruerNum.");
+              				array_push($arErrors, '16:Please remove CarruerNum.');
           			}
          		 break;
          		 
@@ -1443,7 +1443,7 @@ class ECPay_INVOICE_DELAY
 			case EcpayCarruerType::Citizen:
 				if ( !preg_match('/^[a-zA-Z]{2}\d{14}$/', $arParameters['CarruerNum']) )
           			{
-              				array_push($arErrors, "16:Invalid CarruerNum.");
+              				array_push($arErrors, '16:Invalid CarruerNum.');
                           	}
 			break;
       
@@ -1451,11 +1451,11 @@ class ECPay_INVOICE_DELAY
       			case EcpayCarruerType::Cellphone:
 				if ( !preg_match('/^\/{1}[0-9A-Z+-.]{7}$/', $arParameters['CarruerNum']) )
 				{
-					array_push($arErrors, "16:Invalid CarruerNum.");
+					array_push($arErrors, '16:Invalid CarruerNum.');
 				}
 			break;
 			default:
-				array_push($arErrors, "16:Please remove CarruerNum.");
+				array_push($arErrors, '16:Please remove CarruerNum.');
 		}
 		
 		// 17.課稅類別 TaxType(不可為空)
@@ -1463,12 +1463,12 @@ class ECPay_INVOICE_DELAY
 		// *不可為空
 		if (strlen($arParameters['TaxType']) == 0)
 		{
-			array_push($arErrors, "17:TaxType is required.");
+			array_push($arErrors, '17:TaxType is required.');
 		}
 		// *僅能為 1應稅 2零稅率 3免稅 9.應稅與免稅混合
 		if ( ( $arParameters['TaxType'] != EcpayTaxType::Dutiable ) && ( $arParameters['TaxType'] != EcpayTaxType::Zero ) && ( $arParameters['TaxType'] != EcpayTaxType::Free ) && ( $arParameters['TaxType'] != EcpayTaxType::Mix ) )
 		{
-			array_push($arErrors, "17:Invalid TaxType.");
+			array_push($arErrors, '17:Invalid TaxType.');
 		}
 		
 		
@@ -1477,7 +1477,7 @@ class ECPay_INVOICE_DELAY
 		// *不可為空
 		if (strlen($arParameters['SalesAmount']) == 0)
 		{
-			array_push($arErrors, "18:SalesAmount is required.");
+			array_push($arErrors, '18:SalesAmount is required.');
 		}
 		
 		// 20.21.22.23.24.25. 商品資訊
@@ -1581,24 +1581,24 @@ class ECPay_INVOICE_DELAY
 	        		// *檢查商品總金額
 					if ( $arParameters['SalesAmount'] != round($nCheck_Amount))
 					{
-						array_push($arErrors, "18.2:Invalid SalesAmount.");
+						array_push($arErrors, '18.2:Invalid SalesAmount.');
 					}
 
 					// *檢查商品課稅別
 					// 課稅類別為混合稅率時
 					if ($arParameters['TaxType'] == EcpayTaxType::Mix)
 					{
-						$ItemTaxType = explode("|", $arParameters['ItemTaxType']);
+						$ItemTaxType = explode('|', $arParameters['ItemTaxType']);
 
 						// 商品課稅別不可為空
 						if(empty($arParameters['ItemTaxType']))
 						{
-							array_push($arErrors, "24:ItemTaxType is required.");
+							array_push($arErrors, '24:ItemTaxType is required.');
 						}
 						// 需含二筆或以上的商品課稅別
 						if ( count($ItemTaxType) < 2)
 						{
-							array_push($arErrors, "24:ItemTaxType should be more than 2.");
+							array_push($arErrors, '24:ItemTaxType should be more than 2.');
 						}
 						// 免稅和零稅率發票不能同時開立
 						// 只能有兩種情形 :
@@ -1607,7 +1607,7 @@ class ECPay_INVOICE_DELAY
 						$items = array_unique($ItemTaxType);
 						if ( count($items) != 2 || !in_array(1, $items))
 						{
-							array_push($arErrors, "24:ItemTaxType error.");
+							array_push($arErrors, '24:ItemTaxType error.');
 						}
 					}
 	        	}
@@ -1617,13 +1617,13 @@ class ECPay_INVOICE_DELAY
 		// *InvType(不可為空) 僅能為 07 或 08 狀態
 		if( ( $arParameters['InvType'] != EcpayInvType::General ) && ( $arParameters['InvType'] != EcpayInvType::Special ) )
 		{
-			array_push($arErrors, "27:Invalid InvType.");
+			array_push($arErrors, '27:Invalid InvType.');
 		}
 
 		// 30.延遲註記 DelayFlag
 		if( ( $arParameters['DelayFlag'] != EcpayDelayFlagType::Delay ) && ( $arParameters['DelayFlag'] != EcpayDelayFlagType::Trigger ) )
 		{
-			array_push($arErrors, "30:Invalid DelayFlagType.");
+			array_push($arErrors, '30:Invalid DelayFlagType.');
 		}
 		
 		// 31.延遲天數 DelayDay
@@ -1636,7 +1636,7 @@ class ECPay_INVOICE_DELAY
 		{
 			if ($arParameters['DelayDay'] < 1 || $arParameters['DelayDay'] > 15)
 			{
-				array_push($arErrors, "31:DelayDay should be 1 ~ 15.");
+				array_push($arErrors, '31:DelayDay should be 1 ~ 15.');
 			}
 		}
 		// *若為觸發開立時，延遲天數須介於0至15天內
@@ -1644,7 +1644,7 @@ class ECPay_INVOICE_DELAY
 		{
 			if ($arParameters['DelayDay'] < 0 || $arParameters['DelayDay'] > 15)
 			{
-				array_push($arErrors, "31:DelayDay should be 0 ~ 15.");
+				array_push($arErrors, '31:DelayDay should be 0 ~ 15.');
 			}
 		}
 
@@ -1666,7 +1666,7 @@ class ECPay_INVOICE_DELAY
 		// *2016-10-4 修改為僅允許 2
 		if( $arParameters['PayType'] != EcpayPayTypeCategory::Ecpay )
 		{
-			array_push($arErrors, "34:Invalid PayType.");
+			array_push($arErrors, '34:Invalid PayType.');
 		}
 		else
         	{
@@ -1915,7 +1915,7 @@ class ECPay_ALLOWANCE
 				// *檢查商品總金額
 				if ( $arParameters['AllowanceAmount'] != round($nCheck_Amount))
 				{
-					array_push($arErrors, "41:Invalid AllowanceAmount.");
+					array_push($arErrors, '41:Invalid AllowanceAmount.');
 				}	
 			}
 		}
@@ -1938,7 +1938,7 @@ class ECPay_ALLOWANCE
 		// *固定給定下述預設值
 		if( ( $arParameters['AllowanceNotify'] != EcpayAllowanceNotifyType::Sms ) && ( $arParameters['AllowanceNotify'] != EcpayAllowanceNotifyType::Email ) && ( $arParameters['AllowanceNotify'] != EcpayAllowanceNotifyType::All ) && ( $arParameters['AllowanceNotify'] != EcpayAllowanceNotifyType::None ) )
 		{
-			array_push($arErrors, "38:Invalid AllowanceNotifyType.");
+			array_push($arErrors, '38:Invalid AllowanceNotifyType.');
 		}
 
 		// 39.通知電子信箱 NotifyMail
@@ -1954,7 +1954,7 @@ class ECPay_ALLOWANCE
 		// *下述情況通知電子信箱不可為空值(通知類別為E-電子郵件)
 		if($arParameters['AllowanceNotify'] == EcpayAllowanceNotifyType::Email && strlen($arParameters['NotifyMail']) == 0 )
 		{
-			array_push($arErrors, "39:NotifyMail is required.");
+			array_push($arErrors, '39:NotifyMail is required.');
 		}
 
 		// 40.通知手機號碼 NotifyPhone
@@ -1974,26 +1974,26 @@ class ECPay_ALLOWANCE
 		// *下述情況通知手機號碼不可為空值(通知類別為S-簡訊)
 		if( $arParameters['AllowanceNotify'] == EcpayAllowanceNotifyType::Sms && strlen($arParameters['NotifyPhone']) == 0 )
 		{
-			array_push($arErrors, "40:NotifyPhone is required.");
+			array_push($arErrors, '40:NotifyPhone is required.');
 		}
 
 		// 39-40 通知電子信箱、通知手機號碼不能全為空值 (如果狀態為SMS 或 EMAIL)
 		if(strlen($arParameters['NotifyPhone']) == 0 && strlen($arParameters['NotifyMail']) == 0 && ( $arParameters['AllowanceNotify'] == EcpayAllowanceNotifyType::Sms || $arParameters['AllowanceNotify'] == EcpayAllowanceNotifyType::Email ) )
 		{
-			array_push($arErrors, "39-40:NotifyMail or NotifyPhone is required.");
+			array_push($arErrors, '39-40:NotifyMail or NotifyPhone is required.');
 		}
 		else
 		{
 			// *下述情況通知手機號碼與電子信箱不可為空值(通知類別為A-皆通知)
 			if( $arParameters['AllowanceNotify'] == EcpayAllowanceNotifyType::All && ( strlen($arParameters['NotifyMail']) == 0 || strlen($arParameters['NotifyPhone']) == 0 ) )
 			{
-				array_push($arErrors, "39-40:NotifyMail And NotifyPhone is required.");
+				array_push($arErrors, '39-40:NotifyMail And NotifyPhone is required.');
 			}
 			
 			// *下述情況通知手機號碼與電子信箱為空值(通知類別為N-皆不通知)
 			if($arParameters['AllowanceNotify'] == EcpayAllowanceNotifyType::None && ( strlen($arParameters['NotifyMail']) > 0 || strlen($arParameters['NotifyPhone']) > 0 ))
 			{
-				array_push($arErrors, "39-40:Please remove NotifyMail And NotifyPhone.");
+				array_push($arErrors, '39-40:Please remove NotifyMail And NotifyPhone.');
 			}
 		}
 
@@ -2002,7 +2002,7 @@ class ECPay_ALLOWANCE
 		// *必填項目
 		if(strlen($arParameters['AllowanceAmount']) == 0)
 		{
-			array_push($arErrors, "41:AllowanceAmount is required.");
+			array_push($arErrors, '41:AllowanceAmount is required.');
 		}
 		else
 		{
@@ -2080,7 +2080,7 @@ class ECPay_INVOICE_VOID
 		// *必填項目
 		if(strlen($arParameters['InvoiceNumber']) == 0)
 		{
-			array_push($arErrors, "42:InvoiceNumber is required.");
+			array_push($arErrors, '42:InvoiceNumber is required.');
 		}
 		// *預設長度固定10碼
 		if(strlen($arParameters['InvoiceNumber']) != 10)
@@ -2092,7 +2092,7 @@ class ECPay_INVOICE_VOID
 		// *必填欄位
 		if(strlen($arParameters['Reason']) == 0)
 		{
-			array_push($arErrors, "43:Reason is required.");
+			array_push($arErrors, '43:Reason is required.');
 		}
 		// *字數限制在20(含)個字以內
 		if( mb_strlen($arParameters['Reason'], 'UTF-8') > 20)
@@ -2179,18 +2179,18 @@ class ECPay_ALLOWANCE_VOID
 		// *必填欄位
 		if(strlen($arParameters['Reason']) == 0)
 		{
-			array_push($arErrors, "43:Reason is required.");
+			array_push($arErrors, '43:Reason is required.');
 		}
 		// *字數限制在20(含)個字以內
 		if( mb_strlen($arParameters['Reason'], 'UTF-8') > 20)
 		{
-			array_push($arErrors, "43:Reason max length as 20.");
+			array_push($arErrors, '43:Reason max length as 20.');
 		}
 
 		// 44.折讓編號 AllowanceNo
 		if(strlen($arParameters['AllowanceNo']) == 0)
 		{
-			array_push($arErrors, "44:AllowanceNo is required.");
+			array_push($arErrors, '44:AllowanceNo is required.');
 		}
 		// *若有值長度固定16字元
 		if(strlen($arParameters['AllowanceNo']) != 0 && strlen($arParameters['AllowanceNo']) != 16 )
@@ -2447,7 +2447,7 @@ class ECPay_ALLOWANCE_SEARCH
 		// *必填項目
 		if(strlen($arParameters['AllowanceNo']) == 0)
 		{
-			array_push($arErrors, "44:AllowanceNo is required.");
+			array_push($arErrors, '44:AllowanceNo is required.');
 		}
 		// *若有值長度固定16字元
 		if(strlen($arParameters['AllowanceNo']) != 0 && strlen($arParameters['AllowanceNo']) != 16 )
@@ -2534,7 +2534,7 @@ class ECPay_ALLOWANCE_VOID_SEARCH
 		// *必填項目
 		if(strlen($arParameters['AllowanceNo']) == 0)
 		{
-			array_push($arErrors, "44:AllowanceNo is required.");
+			array_push($arErrors, '44:AllowanceNo is required.');
 		}
 		// *若有值長度固定16字元
 		if(strlen($arParameters['AllowanceNo']) != 0 && strlen($arParameters['AllowanceNo']) != 16 )
@@ -2629,7 +2629,7 @@ class ECPay_INVOICE_NOTIFY
 		{	
 			if(strlen($arParameters['AllowanceNo']) == 0)
 			{
-				array_push($arErrors, "44:AllowanceNo is required.");
+				array_push($arErrors, '44:AllowanceNo is required.');
 			}
 
 			// *若有值長度固定16字元
@@ -2652,7 +2652,7 @@ class ECPay_INVOICE_NOTIFY
 		// *下述情況通知電子信箱不可為空值(發送方式為E-電子郵件)
 		if( $arParameters['Notify'] == EcpayNotifyType::Email && strlen($arParameters['NotifyMail']) == 0 )
 		{
-			array_push($arErrors, "39:NotifyMail is required.");
+			array_push($arErrors, '39:NotifyMail is required.');
 		}
 
 		// 46.通知手機號碼 NotifyPhone
@@ -2667,24 +2667,24 @@ class ECPay_INVOICE_NOTIFY
 		// *最大長度為20碼
 		if(strlen($arParameters['Phone']) > 20 )
 		{
-			array_push($arErrors, "46:Phone max length as 20.");
+			array_push($arErrors, '46:Phone max length as 20.');
 		}
 		// *下述情況通知手機號碼不可為空值(發送方式為S-簡訊)
 		if( $arParameters['Notify'] == EcpayNotifyType::Sms && strlen($arParameters['Phone']) == 0 )
 		{
-			array_push($arErrors, "46:Phone is required.");
+			array_push($arErrors, '46:Phone is required.');
 		}
 
 		// 45-46 發送簡訊號碼、發送電子信箱不能全為空值
 		if(strlen($arParameters['Phone']) == 0 && strlen($arParameters['NotifyMail']) == 0)
 		{
-			array_push($arErrors, "45-46:NotifyMail or Phone is required.");
+			array_push($arErrors, '45-46:NotifyMail or Phone is required.');
 		}
 		else
 		{
 			if( $arParameters['Notify'] == EcpayNotifyType::All && ( strlen($arParameters['NotifyMail']) == 0 || strlen($arParameters['Phone']) == 0 ) )
 			{
-				array_push($arErrors, "45-46:NotifyMail and Phone is required.");
+				array_push($arErrors, '45-46:NotifyMail and Phone is required.');
 			}
 		}
 		// 47. 發送方式 Notify
@@ -2692,21 +2692,21 @@ class ECPay_INVOICE_NOTIFY
 		// *固定給定下述預設值
 		if( ($arParameters['Notify'] != EcpayNotifyType::Sms ) && ( $arParameters['Notify'] != EcpayNotifyType::Email ) && ( $arParameters['Notify'] != EcpayNotifyType::All ) )
 		{
-			array_push($arErrors, "47:Notify is required.");
+			array_push($arErrors, '47:Notify is required.');
 		}
 
 		// 48.發送內容類型 InvoiceTag
 		// *固定給定下述預設值
 		if( ( $arParameters['InvoiceTag'] != EcpayInvoiceTagType::Invoice ) && ( $arParameters['InvoiceTag'] != EcpayInvoiceTagType::Invoice_Void ) && ( $arParameters['InvoiceTag'] != EcpayInvoiceTagType::Allowance ) && ( $arParameters['InvoiceTag'] != EcpayInvoiceTagType::Allowance_Void ) && ( $arParameters['InvoiceTag'] != EcpayInvoiceTagType::Invoice_Winning ) )
 		{
-			array_push($arErrors, "48:InvoiceTag is required.");
+			array_push($arErrors, '48:InvoiceTag is required.');
 		}
 
 		// 49.發送對象 Notified
 		// *固定給定下述預設值
 		if( ( $arParameters['Notified'] != EcpayNotifiedType::Customer ) && ( $arParameters['Notified'] != EcpayNotifiedType::vendor ) && ( $arParameters['Notified'] != EcpayNotifiedType::All ) )
 		{
-			array_push($arErrors, "49:Notified is required.");
+			array_push($arErrors, '49:Notified is required.');
 		}
 
 		if(sizeof($arErrors)>0) throw new Exception(join('<br>', $arErrors));
@@ -2786,7 +2786,7 @@ class ECPay_INVOICE_TRIGGER
 		// *2016-10-4 修改為僅允許 2
 		if( $arParameters['PayType'] != EcpayPayTypeCategory::Ecpay)
 		{
-			array_push($arErrors, "34:Invalid PayType.");
+			array_push($arErrors, '34:Invalid PayType.');
 		}
 		
 		if(sizeof($arErrors)>0) throw new Exception(join('<br>', $arErrors));
@@ -2852,7 +2852,7 @@ class ECPay_CHECK_MOBILE_BARCODE
 		// *僅能為8碼且為必填
 		if( strlen($arParameters['BarCode']) != 8 )
 		{
-			array_push($arErrors, "50:BarCode max length as 8.");
+			array_push($arErrors, '50:BarCode max length as 8.');
 		}
 		
 		if(sizeof($arErrors)>0) throw new Exception(join('<br>', $arErrors));
@@ -2924,7 +2924,7 @@ class ECPay_CHECK_LOVE_CODE
 		// *必填 3-7碼
 		if( strlen($arParameters['LoveCode']) > 7 )
 		{
-			array_push($arErrors, "51:LoveCode max length as 7.");
+			array_push($arErrors, '51:LoveCode max length as 7.');
 		}
 		
 		if(sizeof($arErrors)>0) throw new Exception(join('<br>', $arErrors));
