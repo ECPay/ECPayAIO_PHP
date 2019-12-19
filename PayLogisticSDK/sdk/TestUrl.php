@@ -1,6 +1,8 @@
 <?php
 
-abstract class EcpayTestUrl {
+namespace ECPay\PayLogisticSDK;
+
+abstract class TestUrl {
     const CVS_MAP = 'https://logistics-stage.ecpay.com.tw/Express/map';// 電子地圖
     const SHIPPING_ORDER = 'https://logistics-stage.ecpay.com.tw/Express/Create';// 物流訂單建立
     const HOME_RETURN_ORDER = 'https://logistics-stage.ecpay.com.tw/Express/ReturnHome';// 宅配逆物流訂單

@@ -1,6 +1,10 @@
 <?php
 
-class EcpayIo
+namespace ECPay\PayLogisticSDK;
+
+use Exception;
+
+class IO
 {
     /**
      * Server Post

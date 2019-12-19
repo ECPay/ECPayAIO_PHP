@@ -1,6 +1,8 @@
 <?php
 
-class EcpayCheckMacValue
+namespace ECPay\PayLogisticSDK;
+
+class CheckMacValue
 {
     /**
      * 產生檢查碼
@@ -9,7 +11,7 @@ class EcpayCheckMacValue
     {
         if (isset($Params) ){
             unset($Params['CheckMacValue']);
-            uksort($Params, ['EcpayCheckMacValue','MerchantSort']);
+            uksort($Params, ['CheckMacValue','MerchantSort']);
 
             // 組合字串
             $MacValue = 'HashKey=' . $HashKey ;

@@ -1,6 +1,8 @@
 <?php
 
-abstract class EcpayLogisticsSubType {
+namespace ECPay\PayLogisticSDK;
+
+abstract class SubType {
     const TCAT = 'TCAT';// 黑貓(宅配)
     const ECAN = 'ECAN';// 宅配通
     const FAMILY = 'FAMI';// 全家

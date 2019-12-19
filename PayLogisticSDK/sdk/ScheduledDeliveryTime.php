@@ -1,6 +1,8 @@
 <?php
 
-abstract class EcpayScheduledDeliveryTime {
+namespace ECPay\PayLogisticSDK;
+
+abstract class ScheduledDeliveryTime {
     const TIME_9_12 = '1';// 9~12時
     const TIME_12_17 = '2';// 12~17時
     const TIME_17_20 = '3';// 17~20時
