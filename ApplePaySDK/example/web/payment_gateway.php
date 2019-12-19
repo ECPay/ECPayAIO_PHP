@@ -44,5 +44,3 @@ if(true)
 }
 
 echo json_encode($aMsg_Return);
-
-?>

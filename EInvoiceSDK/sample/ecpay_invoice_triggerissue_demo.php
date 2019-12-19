@@ -28,4 +28,3 @@ catch (Exception $e)
 	$sMsg = $e->getMessage();
 }
 echo $sMsg ;
-?>

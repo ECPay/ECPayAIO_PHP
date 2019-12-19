@@ -3097,5 +3097,3 @@ if(!class_exists('ECPay_IO'))
 		}
 	}
 }
-
-?>

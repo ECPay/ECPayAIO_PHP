@@ -49,6 +49,3 @@ catch (Exception $e)
 }
 
 echo 'RelateNumber=>' . $RelateNumber.'<br>'.$sMsg ;
-
-
-?>

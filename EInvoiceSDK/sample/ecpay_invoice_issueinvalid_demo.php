@@ -36,6 +36,3 @@ catch (Exception $e)
 }
 
 echo $sMsg ;
-
-
-?>

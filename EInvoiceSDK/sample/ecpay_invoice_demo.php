@@ -54,4 +54,3 @@ catch (Exception $e)
 	$sMsg = $e->getMessage();
 }
 echo 'RelateNumber=>' . $RelateNumber.'<br>'.$sMsg ;
-?>

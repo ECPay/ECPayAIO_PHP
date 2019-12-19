@@ -2440,4 +2440,3 @@ if (!class_exists('EcpayIo', true)) {
 		}
 	}
 }
-?>

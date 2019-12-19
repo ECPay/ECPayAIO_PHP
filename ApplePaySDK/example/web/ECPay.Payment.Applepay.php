@@ -1067,5 +1067,3 @@ class ECPay_ApplePay_CheckMacValue
         return $decrypted ;
     }
 }
-
-?>

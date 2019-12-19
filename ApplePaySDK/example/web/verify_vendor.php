@@ -19,4 +19,3 @@ $ecpay_applepay->Verify_Vendor['key_password'] 		= APPLE_PASSWORD;
 
 $aMsg_Return = $ecpay_applepay->Verify_Vendor();
 echo json_encode($aMsg_Return);
-?>

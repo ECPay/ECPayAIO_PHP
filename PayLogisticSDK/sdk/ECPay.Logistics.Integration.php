@@ -113,4 +113,3 @@ if (!class_exists('ECPay_CheckMacValue', true)) {
 if (!class_exists('ECPay_IO', true)) {
 	class ECPay_IO extends EcpayIo {}
 }
-?>
