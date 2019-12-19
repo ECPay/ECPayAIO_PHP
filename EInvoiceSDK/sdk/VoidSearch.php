@@ -5,17 +5,16 @@ namespace ECPay\Invoice;
 use Exception;
 
 /**
- *  D發票作廢
+ *  G查詢作廢發票
  */
-class InvoiceVoid
+class VoidSearch
 {
     // 所需參數
     public $parameters = [
         'TimeStamp' => '',
         'MerchantID' => '',
-        'CheckMacValue' => '',
-        'InvoiceNumber' => '',
-        'Reason' => ''
+        'RelateNumber' => '',
+        'CheckMacValue' => ''
     ];
 
     // 需要做urlencode的參數
@@ -52,25 +51,15 @@ class InvoiceVoid
 
         $arErrors = [];
 
-        // 42.發票號碼 InvoiceNumber 
+        // 4.廠商自訂編號
 
-        // *必填項目
-        if (strlen($arParameters['InvoiceNumber']) == 0) {
-            array_push($arErrors, '42:InvoiceNumber is required.');
+        // *預設不可為空值
+        if (strlen($arParameters['RelateNumber']) == 0) {
+            array_push($arErrors, '4:RelateNumber is required.');
         }
-        // *預設長度固定10碼
-        if (strlen($arParameters['InvoiceNumber']) != 10) {
-            array_push($arErrors, '42:InvoiceNumber length as 10.');
-        }
-
-        // 43.作廢原因 Reason
-        // *必填欄位
-        if (strlen($arParameters['Reason']) == 0) {
-            array_push($arErrors, '43:Reason is required.');
-        }
-        // *字數限制在20(含)個字以內
-        if (mb_strlen($arParameters['Reason'], 'UTF-8') > 20) {
-            //array_push($arErrors, "43:Reason max length as 20.");
+        // *預設最大長度為30碼
+        if (strlen($arParameters['RelateNumber']) > 30) {
+            array_push($arErrors, '4:RelateNumber max langth as 30.');
         }
 
         if (sizeof($arErrors) > 0) throw new Exception(join('<br>', $arErrors));

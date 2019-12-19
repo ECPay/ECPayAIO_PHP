@@ -7,7 +7,7 @@ use Exception;
 /**
  *  F查詢發票
  */
-class InvoiceSearch
+class Search
 {
     // 所需參數
     public $parameters = [

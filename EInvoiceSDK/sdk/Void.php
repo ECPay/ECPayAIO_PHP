@@ -5,25 +5,27 @@ namespace ECPay\Invoice;
 use Exception;
 
 /**
- *  K付款完成觸發或延遲開立發票
+ *  D發票作廢
  */
-class InvoiceTrigger
+class Void
 {
     // 所需參數
     public $parameters = [
         'TimeStamp' => '',
         'MerchantID' => '',
         'CheckMacValue' => '',
-        'Tsr' => '',
-        'PayType' => 2
+        'InvoiceNumber' => '',
+        'Reason' => ''
     ];
 
     // 需要做urlencode的參數
     public $urlencode_field = [
+        'Reason' => ''
     ];
 
     // 不需要送壓碼的欄位
     public $none_verification = [
+        'Reason' => '',
         'CheckMacValue' => ''
     ];
 
@@ -50,21 +52,25 @@ class InvoiceTrigger
 
         $arErrors = [];
 
-        // 33.交易單號 Tsr
+        // 42.發票號碼 InvoiceNumber 
+
         // *必填項目
-        if (strlen($arParameters['Tsr']) == 0) {
-            array_push($arErrors, '33:Tsr is required.');
+        if (strlen($arParameters['InvoiceNumber']) == 0) {
+            array_push($arErrors, '42:InvoiceNumber is required.');
+        }
+        // *預設長度固定10碼
+        if (strlen($arParameters['InvoiceNumber']) != 10) {
+            array_push($arErrors, '42:InvoiceNumber length as 10.');
         }
 
-        // *判斷最大字元是否超過30字
-        if (strlen($arParameters['Tsr']) > 30) {
-            array_push($arErrors, '33:Tsr max length as 30.');
+        // 43.作廢原因 Reason
+        // *必填欄位
+        if (strlen($arParameters['Reason']) == 0) {
+            array_push($arErrors, '43:Reason is required.');
         }
-
-        // 34.交易類別 PayType
-        // *2016-10-4 修改為僅允許 2
-        if ($arParameters['PayType'] != PayTypeCategory::Ecpay) {
-            array_push($arErrors, '34:Invalid PayType.');
+        // *字數限制在20(含)個字以內
+        if (mb_strlen($arParameters['Reason'], 'UTF-8') > 20) {
+            //array_push($arErrors, "43:Reason max length as 20.");
         }
 
         if (sizeof($arErrors) > 0) throw new Exception(join('<br>', $arErrors));

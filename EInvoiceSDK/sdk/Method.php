@@ -2,7 +2,7 @@
 
 namespace ECPay\Invoice;
 
-abstract class InvoiceMethod
+abstract class Method
 {
     // 一般開立發票。
     const INVOICE = 'INVOICE';

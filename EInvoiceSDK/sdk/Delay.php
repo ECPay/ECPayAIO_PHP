@@ -7,7 +7,7 @@ use Exception;
 /**
  *  B延遲開立
  */
-class InvoiceDelay
+class Delay
 {
     // 所需參數
     public $parameters = [

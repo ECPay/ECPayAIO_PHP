@@ -5,26 +5,25 @@ namespace ECPay\Invoice;
 use Exception;
 
 /**
- *  G查詢作廢發票
+ *  K付款完成觸發或延遲開立發票
  */
-class InvoiceVoidSearch
+class Trigger
 {
     // 所需參數
     public $parameters = [
         'TimeStamp' => '',
         'MerchantID' => '',
-        'RelateNumber' => '',
-        'CheckMacValue' => ''
+        'CheckMacValue' => '',
+        'Tsr' => '',
+        'PayType' => 2
     ];
 
     // 需要做urlencode的參數
     public $urlencode_field = [
-        'Reason' => ''
     ];
 
     // 不需要送壓碼的欄位
     public $none_verification = [
-        'Reason' => '',
         'CheckMacValue' => ''
     ];
 
@@ -51,15 +50,21 @@ class InvoiceVoidSearch
 
         $arErrors = [];
 
-        // 4.廠商自訂編號
-
-        // *預設不可為空值
-        if (strlen($arParameters['RelateNumber']) == 0) {
-            array_push($arErrors, '4:RelateNumber is required.');
+        // 33.交易單號 Tsr
+        // *必填項目
+        if (strlen($arParameters['Tsr']) == 0) {
+            array_push($arErrors, '33:Tsr is required.');
         }
-        // *預設最大長度為30碼
-        if (strlen($arParameters['RelateNumber']) > 30) {
-            array_push($arErrors, '4:RelateNumber max langth as 30.');
+
+        // *判斷最大字元是否超過30字
+        if (strlen($arParameters['Tsr']) > 30) {
+            array_push($arErrors, '33:Tsr max length as 30.');
+        }
+
+        // 34.交易類別 PayType
+        // *2016-10-4 修改為僅允許 2
+        if ($arParameters['PayType'] != PayTypeCategory::Ecpay) {
+            array_push($arErrors, '34:Invalid PayType.');
         }
 
         if (sizeof($arErrors) > 0) throw new Exception(join('<br>', $arErrors));

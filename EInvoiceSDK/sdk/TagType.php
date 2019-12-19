@@ -2,7 +2,7 @@
 
 namespace ECPay\Invoice;
 
-abstract class InvoiceTagType
+abstract class TagType
 {
     // 發票開立
     const Invoice = 'I';

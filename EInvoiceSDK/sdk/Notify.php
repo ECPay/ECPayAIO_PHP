@@ -7,7 +7,7 @@ use Exception;
 /**
  *  J發送通知
  */
-class InvoiceNotify
+class Notify
 {
     // 所需參數
     public $parameters = [
@@ -58,7 +58,7 @@ class InvoiceNotify
         $arErrors = [];
 
         // 37.發票號碼 InvoiceNo
-        if (($arParameters['InvoiceTag'] == InvoiceTagType::Invoice) || ($arParameters['InvoiceTag'] == InvoiceTagType::Invoice_Void)) {
+        if (($arParameters['InvoiceTag'] == TagType::Invoice) || ($arParameters['InvoiceTag'] == TagType::Invoice_Void)) {
             // *必填項目
             if (strlen($arParameters['InvoiceNo']) == 0) {
                 array_push($arErrors, '37:InvoiceNo is required.');
@@ -70,7 +70,7 @@ class InvoiceNotify
         }
 
         // 44.折讓編號 AllowanceNo
-        if (($arParameters['InvoiceTag'] == InvoiceTagType::Allowance) || ($arParameters['InvoiceTag'] == InvoiceTagType::Allowance_Void)) {
+        if (($arParameters['InvoiceTag'] == TagType::Allowance) || ($arParameters['InvoiceTag'] == TagType::Allowance_Void)) {
             if (strlen($arParameters['AllowanceNo']) == 0) {
                 array_push($arErrors, '44:AllowanceNo is required.');
             }
@@ -127,7 +127,7 @@ class InvoiceNotify
 
         // 48.發送內容類型 InvoiceTag
         // *固定給定下述預設值
-        if (($arParameters['InvoiceTag'] != InvoiceTagType::Invoice) && ($arParameters['InvoiceTag'] != InvoiceTagType::Invoice_Void) && ($arParameters['InvoiceTag'] != InvoiceTagType::Allowance) && ($arParameters['InvoiceTag'] != InvoiceTagType::Allowance_Void) && ($arParameters['InvoiceTag'] != InvoiceTagType::Invoice_Winning)) {
+        if (($arParameters['InvoiceTag'] != TagType::Invoice) && ($arParameters['InvoiceTag'] != TagType::Invoice_Void) && ($arParameters['InvoiceTag'] != TagType::Allowance) && ($arParameters['InvoiceTag'] != TagType::Allowance_Void) && ($arParameters['InvoiceTag'] != TagType::Invoice_Winning)) {
             array_push($arErrors, '48:InvoiceTag is required.');
         }
 
