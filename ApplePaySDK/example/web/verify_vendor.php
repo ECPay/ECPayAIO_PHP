@@ -4,7 +4,7 @@
 * step1 廠商驗證
 */
 
-$validation_url = isset( $_POST['validationURL'] ) ? $_POST['validationURL'] : "https://apple-pay-gateway-cert.apple.com/paymentservices/startSession";
+$validation_url = isset( $_POST['validationURL'] ) ? $_POST['validationURL'] : 'https://apple-pay-gateway-cert.apple.com/paymentservices/startSession';
 
 include_once('config.php') ;
 include_once('ECPay.Payment.Applepay.php') ;
@@ -19,4 +19,3 @@ $ecpay_applepay->Verify_Vendor['key_password'] 		= APPLE_PASSWORD;
 
 $aMsg_Return = $ecpay_applepay->Verify_Vendor();
 echo json_encode($aMsg_Return);
-?>

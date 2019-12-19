@@ -6,10 +6,10 @@
         $AL = new EcpayLogistics();
         $AL->HashKey = '5294y06JbISpM5x9';
         $AL->HashIV = 'v77hoKGq4kWxNNIS';
-        $AL->Send = array(
+        $AL->Send = [
             'MerchantID' => '2000132',
             'AllPayLogisticsID' => '15609',
-			"LogisticsSubType" => EcpayLogisticsSubType::TCAT,
+			'LogisticsSubType' => EcpayLogisticsSubType::TCAT,
             'SenderName' => '測試寄件者',
             'SenderPhone' => '0226550115',
             'SenderCellPhone' => '0933222111',
@@ -24,11 +24,10 @@
             'ServerReplyURL' => HOME_URL . '/ServerReplyURL.php',
 			'GoodsAmount' => 1,
             'PlatformID' => '',
-        );
+        ];
         // CreateHomeReturnOrder()
         $Result = $AL->CreateHomeReturnOrder();
         echo '<pre>' . print_r($Result, true) . '</pre>';
     } catch(Exception $e) {
         echo $e->getMessage();
     }
-?>

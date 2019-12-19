@@ -6,7 +6,7 @@
         $AL = new EcpayLogistics();
         $AL->HashKey = '5294y06JbISpM5x9';
         $AL->HashIV = 'v77hoKGq4kWxNNIS';
-        $AL->Send = array(
+        $AL->Send = [
             'MerchantID' => '2000132',
             'MerchantTradeNo' => 'no' . date('YmdHis'),
             'MerchantTradeDate' => date('Y/m/d H:i:s'),
@@ -29,16 +29,15 @@
             'LogisticsC2CReplyURL' => HOME_URL . '/LogisticsC2CReplyURL.php',
             'Remark' => '測試備註',
             'PlatformID' => '',
-        );
+        ];
 
-        $AL->SendExtend = array(
+        $AL->SendExtend = [
             'ReceiverStoreID' => '991182',
             'ReturnStoreID' => '',
-        );
+        ];
         // CreateShippingOrder()
         $Result = $AL->CreateShippingOrder();
         echo '<pre>' . print_r($Result, true) . '</pre>';
     } catch(Exception $e) {
         echo $e->getMessage();
     }
-?>

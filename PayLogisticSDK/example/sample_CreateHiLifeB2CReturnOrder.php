@@ -7,7 +7,7 @@
         $AL = new EcpayLogistics();
         $AL->HashKey = '5294y06JbISpM5x9';
         $AL->HashIV = 'v77hoKGq4kWxNNIS';
-        $AL->Send = array(
+        $AL->Send = [
             'MerchantID' => '2000132',
             'AllPayLogisticsID' => '15624',
             'ServerReplyURL' => HOME_URL . '/ServerReplyURL.php',
@@ -19,11 +19,10 @@
             'Quantity' => '1#2',
             'Cost' => '100#700',
             'PlatformID' => '',
-        );
+        ];
         // CreateHiLifeB2CReturnOrder()
         $Result = $AL->CreateHiLifeB2CReturnOrder();
         echo '<pre>' . print_r($Result, true) . '</pre>';
     } catch(Exception $e) {
         echo $e->getMessage();
     }
-?>

@@ -1,0 +1,14 @@
+{
+    "name": "ecpay/php-sdk",
+    "description": "",
+    "type": "library",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "ECPay\\": "AioSDK/sdk",
+            "ECPay\\ApplePay\\": "ApplePaySDK/sdk",
+            "ECPay\\Invoice\\": "EInvoiceSDK/sdk",
+            "ECPay\\PayLogisticSDK\\": "PayLogisticSDK/sdk"
+        }
+    }
+}

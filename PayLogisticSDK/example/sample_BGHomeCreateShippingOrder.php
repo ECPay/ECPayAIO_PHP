@@ -6,7 +6,7 @@
         $AL = new EcpayLogistics();
         $AL->HashKey = '5294y06JbISpM5x9';
         $AL->HashIV = 'v77hoKGq4kWxNNIS';
-        $AL->Send = array(
+        $AL->Send = [
             'MerchantID' => '2000132',
             'MerchantTradeNo' => 'no' . date('YmdHis'),
             'MerchantTradeDate' => date('Y/m/d H:i:s'),
@@ -28,9 +28,9 @@
             'LogisticsC2CReplyURL' => HOME_URL . '/LogisticsC2CReplyURL.php',
             'Remark' => '測試備註',
             'PlatformID' => '',
-        );
+        ];
 
-        $AL->SendExtend = array(
+        $AL->SendExtend = [
             'SenderZipCode' => '11560',
             'SenderAddress' => '台北市南港區三重路19-2號10樓D棟',
             'ReceiverZipCode' => '11560',
@@ -40,11 +40,10 @@
             'Specification' => EcpaySpecification::CM_150,
             'ScheduledDeliveryTime' => EcpayScheduledDeliveryTime::TIME_17_20,
             'ScheduledDeliveryDate' => date('Y/m/d', strtotime('+3 day')) // ECAN only
-        );
+        ];
         // BGCreateShippingOrder()
         $Result = $AL->BGCreateShippingOrder();
         echo '<pre>' . print_r($Result, true) . '</pre>';
     } catch(Exception $e) {
         echo $e->getMessage();
     }
-?>
