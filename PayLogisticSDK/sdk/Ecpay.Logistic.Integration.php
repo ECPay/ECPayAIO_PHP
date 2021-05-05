@@ -25,9 +25,11 @@ if (!class_exists('EcpayLogisticsSubType', false)) {
         const FAMILY = 'FAMI';// 全家
         const UNIMART = 'UNIMART';// 統一超商
         const HILIFE = 'HILIFE';// 萊爾富
+        const OKMART = 'OKMART';// OK超商
         const FAMILY_C2C = 'FAMIC2C';// 全家店到店
         const UNIMART_C2C = 'UNIMARTC2C';// 統一超商寄貨便
         const HILIFE_C2C = 'HILIFEC2C';// 萊爾富富店到店
+        const OKMART_C2C = 'OKMARTC2C';// OK超商店到店
     }
 }
 /**
@@ -81,6 +83,7 @@ if (!class_exists('EcpayUrl', false)) {
         const PRINT_UNIMART_C2C_BILL = 'https://logistics.ecpay.com.tw/Express/PrintUniMartC2COrderInfo';// 列印繳款單(統一超商C2C)
         const PRINT_FAMILY_C2C_BILL = 'https://logistics.ecpay.com.tw/Express/PrintFAMIC2COrderInfo';// 全家列印小白單(全家超商C2C)
         const Print_HILIFE_C2C_BILL = 'https://logistics.ecpay.com.tw/Express/PrintHILIFEC2COrderInfo';// 萊爾富列印小白單(萊爾富超商C2C)
+        const PRINT_OKMART_C2C_BILL = 'https://logistics.ecpay.com.tw/Express/PrintOKMARTC2COrderInfo';// OK超商列印小白單(OK超商C2C)
         const CREATE_TEST_DATA = 'https://logistics.ecpay.com.tw/Express/CreateTestData';// 產生 B2C 測標資料
     }
 }
@@ -105,6 +108,7 @@ if (!class_exists('EcpayTestUrl', false)) {
         const PRINT_UNIMART_C2C_BILL = 'https://logistics-stage.ecpay.com.tw/Express/PrintUniMartC2COrderInfo';// 列印繳款單(統一超商C2C)
         const PRINT_FAMILY_C2C_BILL = 'https://logistics-stage.ecpay.com.tw/Express/PrintFAMIC2COrderInfo';// 全家列印小白單(全家超商C2C)
         const Print_HILIFE_C2C_BILL = 'https://logistics-stage.ecpay.com.tw/Express/PrintHILIFEC2COrderInfo';// 萊爾富列印小白單(萊爾富超商C2C)
+        const PRINT_OKMART_C2C_BILL = 'https://logistics-stage.ecpay.com.tw/Express/PrintOKMARTC2COrderInfo';// OK超商列印小白單(OK超商C2C)
         const CREATE_TEST_DATA = 'https://logistics-stage.ecpay.com.tw/Express/CreateTestData';// 產生 B2C 測標資料
     }
 }
@@ -1363,6 +1367,40 @@ if (!class_exists('EcpayLogistics', false)) {
         }
 
         /**
+         *  OK超商列印小白單(OK超商C2C)
+         *
+         * @param     string    $ButtonDesc 按鈕顯示名稱
+         * @param     string    $Target 表單 action 目標
+         * @return    string
+         */
+        public function PrintOkMartC2CBill($ButtonDesc = 'OK超商列印小白單(OK超商C2C)', $Target = '_blank')
+        {
+
+            // 參數初始化
+            $ParamList = array(
+                'MerchantID' => '',
+                'AllPayLogisticsID' => '',
+                'CVSPaymentNo' => '',
+                'PlatformID' => ''
+            );
+            $this->PostParams = $this->GetPostParams($this->Send, $ParamList);
+
+            // 參數檢查
+            $this->ValidateHashKey();
+            $this->ValidateHashIV();
+            $this->ValidateID('MerchantID', $this->PostParams['MerchantID'], 10);
+            $this->ServiceURL = $this->GetURL('PRINT_OKMART_C2C_BILL');
+            $this->ValidateID('AllPayLogisticsID', $this->PostParams['AllPayLogisticsID'], 20);
+            $this->ValidateMixTypeID('CVSPaymentNo', $this->PostParams['CVSPaymentNo'], 15);
+            $this->ValidateID('PlatformID', $this->PostParams['PlatformID'], 10, true);
+
+            // 產生 CheckMacValue
+            $this->PostParams['CheckMacValue'] = EcpayCheckMacValue::Generate($this->PostParams, $this->HashKey, $this->HashIV);
+
+            return $this->GenPostHTML($ButtonDesc, $Target);
+        }
+
+        /**
          *  產生 B2C 測標資料
          *
          * @param     string    $ButtonDesc 按鈕顯示名稱
@@ -2086,6 +2124,7 @@ if (!class_exists('EcpayLogistics', false)) {
 					'PRINT_UNIMART_C2C_BILL' => EcpayTestURL::PRINT_UNIMART_C2C_BILL,
 					'PRINT_FAMILY_C2C_BILL' => EcpayTestURL::PRINT_FAMILY_C2C_BILL,
 					'Print_HILIFE_C2C_BILL' => EcpayTestURL::Print_HILIFE_C2C_BILL,
+                                        'PRINT_OKMART_C2C_BILL' => EcpayTestURL::PRINT_OKMART_C2C_BILL,
 					'CREATE_TEST_DATA' => EcpayTestURL::CREATE_TEST_DATA,
 				);
 			} else {
@@ -2106,6 +2145,7 @@ if (!class_exists('EcpayLogistics', false)) {
 					'PRINT_UNIMART_C2C_BILL' => EcpayURL::PRINT_UNIMART_C2C_BILL,
 					'PRINT_FAMILY_C2C_BILL' => EcpayURL::PRINT_FAMILY_C2C_BILL,
 					'Print_HILIFE_C2C_BILL' => EcpayURL::Print_HILIFE_C2C_BILL,
+                                        'PRINT_OKMART_C2C_BILL' => EcpayTestURL::PRINT_OKMART_C2C_BILL,
 					'CREATE_TEST_DATA' => EcpayURL::CREATE_TEST_DATA,
 				);
 			}
